@@ -1,12 +1,24 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, ArrowRight, Whatsapp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const handleNewsletterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const email = new FormData(form).get('email') as string;
+    
+    if (email) {
+      toast.success('¡Gracias por suscribirte a nuestro boletín!');
+      form.reset();
+    } else {
+      toast.error('Por favor ingresa un correo electrónico válido');
+    }
+  };
 
   return (
     <footer className="bg-charlotte-dark text-white mt-12">
@@ -18,16 +30,17 @@ const Footer = () => {
               <h3 className="text-xl font-bold">¡Suscríbete a nuestro boletín!</h3>
               <p className="mt-1 text-sm md:text-base">Recibe ofertas exclusivas y noticias de nuevas colecciones.</p>
             </div>
-            <div className="w-full md:w-auto flex flex-col sm:flex-row gap-3">
+            <form onSubmit={handleNewsletterSubmit} className="w-full md:w-auto flex flex-col sm:flex-row gap-3">
               <Input
                 type="email"
+                name="email"
                 placeholder="Tu correo electrónico"
                 className="border bg-white/10 backdrop-blur-sm border-white/20 placeholder:text-white/70"
               />
-              <Button className="bg-white text-charlotte-primary hover:bg-white/90">
+              <Button type="submit" className="bg-white text-charlotte-primary hover:bg-white/90">
                 Suscribirse <ArrowRight size={16} className="ml-2" />
               </Button>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -56,6 +69,9 @@ const Footer = () => {
               </a>
               <a href="https://youtube.com" className="hover-scale" aria-label="Youtube">
                 <Youtube size={20} className="hover:text-charlotte-accent transition-colors" />
+              </a>
+              <a href="https://wa.me/525512345678?text=Hola%20Charlotte%20ARCS,%20me%20interesa%20comprar" className="hover-scale" aria-label="WhatsApp">
+                <Whatsapp size={20} className="hover:text-charlotte-accent transition-colors" />
               </a>
             </div>
           </div>
@@ -112,6 +128,12 @@ const Footer = () => {
                   contacto@charlottearcs.com
                 </a>
               </li>
+              <li className="flex items-center">
+                <Whatsapp size={18} className="mr-2 text-charlotte-accent" />
+                <a href="https://wa.me/525512345678?text=Hola%20Charlotte%20ARCS,%20me%20interesa%20comprar" className="text-gray-300 hover:text-white transition-colors">
+                  WhatsApp: +52 55 1234 5678
+                </a>
+              </li>
             </ul>
             <div className="mt-6">
               <h5 className="font-semibold mb-2">Horario de Atención</h5>
@@ -129,7 +151,7 @@ const Footer = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-gray-400">
-              &copy; {currentYear} Charlotte ARCS. Todos los derechos reservados.
+              &copy; 2018 Charlotte ARCS - Worlds in Actech. Todos los derechos reservados.
             </p>
             <div className="mt-4 md:mt-0">
               <img 
