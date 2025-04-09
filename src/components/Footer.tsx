@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, ArrowRight, MessageCircle } from 'lucide-react';
@@ -70,7 +69,7 @@ const Footer = () => {
               <a href="https://youtube.com" className="hover-scale" aria-label="Youtube">
                 <Youtube size={20} className="hover:text-charlotte-accent transition-colors" />
               </a>
-              <a href="https://wa.me/525512345678?text=Hola%20Charlotte%20ARCS,%20me%20interesa%20comprar" className="hover-scale" aria-label="WhatsApp">
+              <a href="https://wa.me/525633230908?text=Hola%20Charlotte%20ARCS,%20me%20interesa%20comprar" className="hover-scale" aria-label="WhatsApp">
                 <MessageCircle size={20} className="hover:text-charlotte-accent transition-colors" />
               </a>
             </div>
@@ -130,8 +129,8 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <MessageCircle size={18} className="mr-2 text-charlotte-accent" />
-                <a href="https://wa.me/525512345678?text=Hola%20Charlotte%20ARCS,%20me%20interesa%20comprar" className="text-gray-300 hover:text-white transition-colors">
-                  WhatsApp: +52 55 1234 5678
+                <a href="https://wa.me/525633230908?text=Hola%20Charlotte%20ARCS,%20me%20interesa%20comprar" className="text-gray-300 hover:text-white transition-colors">
+                  WhatsApp: +52 56 3323 0908
                 </a>
               </li>
             </ul>
