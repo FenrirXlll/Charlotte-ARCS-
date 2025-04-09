@@ -15,11 +15,16 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
-      <Sonner />
+      <Sonner closeButton position="top-right" />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout><Index /></Layout>} />
           <Route path="/about-us" element={<Layout><AboutUs /></Layout>} />
+          <Route path="/category/:categoryName" element={<Layout><Index /></Layout>} />
+          <Route path="/search" element={<Layout><Index /></Layout>} />
+          <Route path="/cart" element={<Layout><Index /></Layout>} />
+          <Route path="/wishlist" element={<Layout><Index /></Layout>} />
+          <Route path="/account" element={<Layout><Index /></Layout>} />
           <Route path="*" element={<Layout><NotFound /></Layout>} />
         </Routes>
       </BrowserRouter>

@@ -77,6 +77,15 @@
   }
 }
 
+/* Import Playfair Display font for the Charlotte logo */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+/* Custom font for the Charlotte ARCS title */
+.font-charlotte {
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 0.02em;
+}
+
 /* Custom animations */
 .hover-scale {
   @apply transition-transform duration-200 hover:scale-105;
@@ -93,4 +102,28 @@
 @keyframes banner-slide {
   0% { transform: translateX(0); }
   100% { transform: translateX(-100%); }
+}
+
+/* Logo animation */
+@keyframes logo-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.logo-animate {
+  animation: logo-pulse 2s infinite ease-in-out;
+}
+
+/* Button hover effect */
+.btn-hover-effect {
+  @apply relative overflow-hidden;
+}
+
+.btn-hover-effect::before {
+  content: '';
+  @apply absolute inset-0 bg-charlotte-primary opacity-0 transition-opacity duration-300;
+}
+
+.btn-hover-effect:hover::before {
+  @apply opacity-10;
 }
