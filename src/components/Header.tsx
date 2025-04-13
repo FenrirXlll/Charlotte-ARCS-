@@ -1,20 +1,27 @@
 
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { Search, ShoppingBag, Heart, User, Menu, X } from 'lucide-react';
+import { Search, ShoppingBag, Heart, User, Menu, X, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { 
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
-  NavigationMenuTrigger,
-  NavigationMenuContent,
   NavigationMenuLink
 } from "@/components/ui/navigation-menu";
-import { cn } from '@/lib/utils';
 import { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command";
 import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const categories = [
   { name: 'Mujeres', path: '/category/mujeres' },
@@ -34,9 +41,10 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchDialogOpen, setSearchDialogOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
   const isMobile = useIsMobile();
   const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+  const { count: cartCount } = useCart();
 
   // Handle scroll event to change header style
   useEffect(() => {
@@ -64,14 +72,14 @@ const Header = () => {
     }
   };
 
-  const handleAddToCart = () => {
-    setCartCount(prev => prev + 1);
-    toast.success('¡Producto agregado al carrito!');
-  };
-
   const handleCategoryClick = (path: string) => {
     navigate(path);
     setMobileMenuOpen(false);
+  };
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/');
   };
 
   return (
@@ -135,9 +143,35 @@ const Header = () => {
           
           {!isMobile && (
             <>
-              <Link to="/account" className="hover-scale">
-                <User size={24} className="text-charlotte-dark hover:text-charlotte-primary transition-colors" />
-              </Link>
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="hover-scale p-0">
+                      <User size={24} className="text-charlotte-dark hover:text-charlotte-primary transition-colors" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link to="/account">Perfil</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/wishlist">Lista de Deseos</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Cerrar Sesión</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link to="/login" className="hover-scale">
+                  <User size={24} className="text-charlotte-dark hover:text-charlotte-primary transition-colors" />
+                </Link>
+              )}
+              
               <Link to="/wishlist" className="hover-scale">
                 <Heart size={24} className="text-charlotte-dark hover:text-charlotte-primary transition-colors" />
               </Link>
@@ -146,9 +180,11 @@ const Header = () => {
           
           <Link to="/cart" className="hover-scale relative">
             <ShoppingBag size={24} className="text-charlotte-dark hover:text-charlotte-primary transition-colors" />
-            <span className="absolute -top-2 -right-2 bg-charlotte-accent text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-              {cartCount}
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-charlotte-accent text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
           </Link>
           
           {isMobile && (
@@ -202,6 +238,20 @@ const Header = () => {
               </Button>
             </div>
             
+            {user && (
+              <div className="p-4 border-b">
+                <div className="flex items-center space-x-3 mb-3">
+                  <div className="w-10 h-10 bg-charlotte-primary rounded-full flex items-center justify-center text-white">
+                    <User size={18} />
+                  </div>
+                  <div>
+                    <p className="font-medium">{user.user_metadata?.full_name || user.email}</p>
+                    <p className="text-sm text-gray-500">{user.email}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+            
             <div className="p-4 border-b">
               <form onSubmit={handleSearch} className="relative">
                 <input
@@ -231,14 +281,25 @@ const Header = () => {
                   </li>
                 ))}
                 <li className="border-t pt-4 mt-4">
-                  <NavLink 
-                    to="/account" 
-                    className="flex items-center p-2 space-x-2 text-charlotte-dark hover:bg-charlotte-light rounded"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <User size={20} />
-                    <span>Mi Cuenta</span>
-                  </NavLink>
+                  {user ? (
+                    <NavLink 
+                      to="/account" 
+                      className="flex items-center p-2 space-x-2 text-charlotte-dark hover:bg-charlotte-light rounded"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <User size={20} />
+                      <span>Mi Cuenta</span>
+                    </NavLink>
+                  ) : (
+                    <NavLink 
+                      to="/login" 
+                      className="flex items-center p-2 space-x-2 text-charlotte-dark hover:bg-charlotte-light rounded"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <User size={20} />
+                      <span>Iniciar Sesión</span>
+                    </NavLink>
+                  )}
                 </li>
                 <li>
                   <NavLink 
@@ -259,6 +320,21 @@ const Header = () => {
                     <span>Quiénes Somos</span>
                   </NavLink>
                 </li>
+                {user && (
+                  <li className="border-t pt-4 mt-4">
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start p-2 text-red-500 hover:bg-red-50 rounded"
+                      onClick={() => {
+                        handleLogout();
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      <LogOut size={20} className="mr-2" />
+                      <span>Cerrar Sesión</span>
+                    </Button>
+                  </li>
+                )}
               </ul>
             </nav>
           </div>
