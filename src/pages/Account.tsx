@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { supabase } from '@/integrations/supabase/client';
+import { supabaseCustom } from '@/lib/supabase-custom';
 import { useToast } from '@/hooks/use-toast';
 
 const Account = () => {
@@ -22,7 +22,7 @@ const Account = () => {
     const loadUserData = async () => {
       if (user) {
         try {
-          const { data, error } = await supabase
+          const { data, error } = await supabaseCustom
             .from('profiles')
             .select('*')
             .eq('id', user.id)
@@ -43,7 +43,7 @@ const Account = () => {
       if (user) {
         try {
           setOrdersLoading(true);
-          const { data, error } = await supabase
+          const { data, error } = await supabaseCustom
             .from('orders')
             .select(`
               *,
@@ -85,7 +85,7 @@ const Account = () => {
     try {
       setIsUpdating(true);
       
-      const { error } = await supabase
+      const { error } = await supabaseCustom
         .from('profiles')
         .upsert({
           id: user.id,

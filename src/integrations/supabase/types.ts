@@ -9,6 +9,41 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      cart_items: {
+        Row: {
+          created_at: string | null
+          id: string
+          product_id: string | null
+          quantity: number
+          session_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          product_id?: string | null
+          quantity?: number
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          product_id?: string | null
+          quantity?: number
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cart_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       categories: {
         Row: {
           created_at: string | null
@@ -30,6 +65,78 @@ export type Database = {
           image?: string | null
           name?: string
           slug?: string
+        }
+        Relationships: []
+      }
+      order_items: {
+        Row: {
+          created_at: string | null
+          id: string
+          order_id: string | null
+          price: number
+          product_id: string | null
+          quantity: number
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          order_id?: string | null
+          price: number
+          product_id?: string | null
+          quantity?: number
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          order_id?: string | null
+          price?: number
+          product_id?: string | null
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string | null
+          id: string
+          payment_method: string
+          shipping_address: string
+          status: string
+          total: number
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          payment_method: string
+          shipping_address: string
+          status: string
+          total: number
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          payment_method?: string
+          shipping_address?: string
+          status?: string
+          total?: number
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -163,6 +270,24 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          full_name: string | null
+          id: string
+          updated_at: string | null
+        }
+        Insert: {
+          full_name?: string | null
+          id: string
+          updated_at?: string | null
+        }
+        Update: {
+          full_name?: string | null
+          id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       Usuarios: {
         Row: {
           created_at: string
@@ -177,6 +302,35 @@ export type Database = {
           id?: number
         }
         Relationships: []
+      }
+      wishlist_items: {
+        Row: {
+          added_at: string | null
+          id: string
+          product_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          added_at?: string | null
+          id?: string
+          product_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          added_at?: string | null
+          id?: string
+          product_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wishlist_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

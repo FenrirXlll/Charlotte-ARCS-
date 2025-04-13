@@ -1,7 +1,7 @@
 
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
+import { supabaseCustom } from '@/lib/supabase-custom';
 import { CartItem, Product } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 import { useAuth } from './AuthContext';
@@ -45,7 +45,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       setLoading(true);
       try {
-        let query = supabase
+        let query = supabaseCustom
           .from('cart_items')
           .select('*, product:products(*)')
         
@@ -77,7 +77,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (user && sessionId && items.length > 0) {
         try {
           // Obtener items del carrito del usuario
-          const { data: userCartItems } = await supabase
+          const { data: userCartItems } = await supabaseCustom
             .from('cart_items')
             .select('*')
             .eq('user_id', user.id);
@@ -89,19 +89,19 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
               
               if (existingItem) {
                 // Actualizar cantidad si el producto ya existe
-                await supabase
+                await supabaseCustom
                   .from('cart_items')
                   .update({ quantity: existingItem.quantity + item.quantity })
                   .eq('id', existingItem.id);
                   
                 // Eliminar el item de la sesión
-                await supabase
+                await supabaseCustom
                   .from('cart_items')
                   .delete()
                   .match({ id: item.id });
               } else {
                 // Asignar el item al usuario
-                await supabase
+                await supabaseCustom
                   .from('cart_items')
                   .update({ user_id: user.id, session_id: null })
                   .eq('id', item.id);
@@ -110,7 +110,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           }
           
           // Recargar el carrito
-          const { data, error } = await supabase
+          const { data, error } = await supabaseCustom
             .from('cart_items')
             .select('*, product:products(*)')
             .eq('user_id', user.id);
@@ -139,7 +139,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Actualizar cantidad
         const newQuantity = existingItem.quantity + quantity;
         
-        const { error } = await supabase
+        const { error } = await supabaseCustom
           .from('cart_items')
           .update({ quantity: newQuantity })
           .eq('id', existingItem.id);
@@ -165,7 +165,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           product
         };
         
-        const { error } = await supabase
+        const { error } = await supabaseCustom
           .from('cart_items')
           .insert([{
             id: newItem.id,
@@ -204,7 +204,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       if (!itemToRemove) return;
       
-      const { error } = await supabase
+      const { error } = await supabaseCustom
         .from('cart_items')
         .delete()
         .match({ id: itemToRemove.id });
@@ -239,7 +239,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       if (!itemToUpdate) return;
       
-      const { error } = await supabase
+      const { error } = await supabaseCustom
         .from('cart_items')
         .update({ quantity })
         .match({ id: itemToUpdate.id });
@@ -271,11 +271,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       // Fix: Use the proper TypeScript syntax for Supabase queries
       let { error } = user 
-        ? await supabase
+        ? await supabaseCustom
             .from('cart_items')
             .delete()
             .match({ user_id: user.id })
-        : await supabase
+        : await supabaseCustom
             .from('cart_items')
             .delete()
             .match({ session_id: sessionId });

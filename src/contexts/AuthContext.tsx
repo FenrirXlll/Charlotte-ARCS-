@@ -1,7 +1,7 @@
 
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { Session, User } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
+import { supabaseCustom } from '@/lib/supabase-custom';
 import { useToast } from '@/hooks/use-toast';
 
 interface AuthContextType {
@@ -23,7 +23,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const getSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
+      const { data, error } = await supabaseCustom.auth.getSession();
       if (error) {
         console.error('Error getting session:', error);
       } else {
@@ -35,7 +35,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     getSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabaseCustom.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
@@ -47,7 +47,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signIn = async (email: string, password: string) => {
     try {
       setLoading(true);
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabaseCustom.auth.signInWithPassword({ email, password });
       if (error) throw error;
       toast({
         title: '¡Bienvenido de nuevo!',
@@ -69,7 +69,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signUp = async (email: string, password: string, fullName: string) => {
     try {
       setLoading(true);
-      const { error } = await supabase.auth.signUp({
+      const { error } = await supabaseCustom.auth.signUp({
         email,
         password,
         options: {
@@ -99,7 +99,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = async () => {
     try {
       setLoading(true);
-      await supabase.auth.signOut();
+      await supabaseCustom.auth.signOut();
       toast({
         title: 'Sesión cerrada',
         description: 'Has cerrado sesión correctamente.',

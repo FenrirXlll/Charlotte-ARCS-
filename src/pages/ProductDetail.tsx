@@ -1,7 +1,8 @@
+
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
-import { Product, ProductImage, ProductDetail } from '@/types';
+import type { Product, ProductImage, ProductDetail as ProductDetailType } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';

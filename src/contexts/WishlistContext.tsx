@@ -1,7 +1,7 @@
 
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
+import { supabaseCustom } from '@/lib/supabase-custom';
 import { WishlistItem, Product } from '@/types';
 import { useAuth } from './AuthContext';
 import { toast as sonnerToast } from 'sonner';
@@ -33,7 +33,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       
       setLoading(true);
       try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseCustom
           .from('wishlist_items')
           .select('*, product:products(*)')
           .eq('user_id', user.id);
@@ -86,7 +86,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         product
       };
       
-      const { error } = await supabase
+      const { error } = await supabaseCustom
         .from('wishlist_items')
         .insert([{
           id: newItem.id,
@@ -125,7 +125,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       
       if (!itemToRemove) return;
       
-      const { error } = await supabase
+      const { error } = await supabaseCustom
         .from('wishlist_items')
         .delete()
         .eq('id', itemToRemove.id);
