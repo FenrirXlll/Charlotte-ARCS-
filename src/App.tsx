@@ -1,57 +1,56 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import AboutUs from "./pages/AboutUs";
-import Layout from "./components/Layout";
-import Cart from "./pages/Cart";
-import Wishlist from "./pages/Wishlist";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Account from "./pages/Account";
-import { AuthProvider } from "./contexts/AuthContext";
-import { CartProvider } from "./contexts/CartContext";
-import { WishlistProvider } from "./contexts/WishlistContext";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from '@/components/ui/toaster';
+import { ThemeProvider } from '@/providers/ThemeProvider';
+import Layout from '@/components/Layout';
+import Index from '@/pages/Index';
+import Cart from '@/pages/Cart';
+import Login from '@/pages/Login';
+import Register from '@/pages/Register';
+import NotFound from '@/pages/NotFound';
+import AboutUs from '@/pages/AboutUs';
+import Account from '@/pages/Account';
+import Wishlist from '@/pages/Wishlist';
+import Admin from '@/pages/Admin';
+import { CartProvider } from '@/contexts/CartContext';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { WishlistProvider } from '@/contexts/WishlistContext';
+import { Toaster as SonnerToaster } from 'sonner';
 
+// Create a client
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <CartProvider>
-        <WishlistProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner closeButton position="top-right" />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Layout><Index /></Layout>} />
-                <Route path="/about-us" element={<Layout><AboutUs /></Layout>} />
-                <Route path="/category/:categoryName" element={<Layout><Index /></Layout>} />
-                <Route path="/search" element={<Layout><Index /></Layout>} />
-                <Route path="/cart" element={<Layout><Cart /></Layout>} />
-                <Route path="/wishlist" element={<Layout><Wishlist /></Layout>} />
-                <Route path="/login" element={<Layout><Login /></Layout>} />
-                <Route path="/register" element={<Layout><Register /></Layout>} />
-                <Route path="/account" element={<Layout><Account /></Layout>} />
-                <Route path="/contact" element={<Layout><AboutUs /></Layout>} />
-                <Route path="/faq" element={<Layout><AboutUs /></Layout>} />
-                <Route path="/returns" element={<Layout><AboutUs /></Layout>} />
-                <Route path="/shipping" element={<Layout><AboutUs /></Layout>} />
-                <Route path="/terms" element={<Layout><AboutUs /></Layout>} />
-                <Route path="/privacy" element={<Layout><AboutUs /></Layout>} />
-                <Route path="*" element={<Layout><NotFound /></Layout>} />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </WishlistProvider>
-      </CartProvider>
-    </AuthProvider>
-  </QueryClientProvider>
-);
+function App() {
+  return (
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <CartProvider>
+            <WishlistProvider>
+              <Router>
+                <Layout>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/wishlist" element={<Wishlist />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/account" element={<Account />} />
+                    <Route path="/about" element={<AboutUs />} />
+                    <Route path="/admin" element={<Admin />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Layout>
+              </Router>
+              <SonnerToaster position="top-right" />
+              <Toaster />
+            </WishlistProvider>
+          </CartProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
+  );
+}
 
 export default App;
