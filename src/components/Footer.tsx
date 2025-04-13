@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, ArrowRight, MessageCircle } from 'lucide-react';
@@ -16,6 +17,25 @@ const Footer = () => {
       form.reset();
     } else {
       toast.error('Por favor ingresa un correo electrónico válido');
+    }
+  };
+
+  // Información de contacto centralizada
+  const contactInfo = {
+    address: 'Av. Insurgentes Sur 2375, Col. Tizapán, Ciudad de México, CP 01090',
+    phone: '+52 55 1234 5678',
+    email: 'contacto@charlottearcs.com',
+    whatsapp: '+52 56 3323 0908',
+    whatsappUrl: 'https://wa.me/525633230908?text=Hola%20Charlotte%20ARCS,%20me%20interesa%20comprar',
+    hours: {
+      weekdays: 'Lunes a Sábado: 10:00 - 20:00',
+      sunday: 'Domingo: 11:00 - 18:00'
+    },
+    socialMedia: {
+      facebook: 'https://facebook.com',
+      instagram: 'https://instagram.com',
+      twitter: 'https://twitter.com',
+      youtube: 'https://youtube.com'
     }
   };
 
@@ -57,19 +77,19 @@ const Footer = () => {
               Conoce nuestra historia <ArrowRight size={14} className="ml-1" />
             </Link>
             <div className="flex space-x-3 mt-6">
-              <a href="https://facebook.com" className="hover-scale" aria-label="Facebook">
+              <a href={contactInfo.socialMedia.facebook} className="hover-scale" aria-label="Facebook">
                 <Facebook size={20} className="hover:text-charlotte-accent transition-colors" />
               </a>
-              <a href="https://instagram.com" className="hover-scale" aria-label="Instagram">
+              <a href={contactInfo.socialMedia.instagram} className="hover-scale" aria-label="Instagram">
                 <Instagram size={20} className="hover:text-charlotte-accent transition-colors" />
               </a>
-              <a href="https://twitter.com" className="hover-scale" aria-label="Twitter">
+              <a href={contactInfo.socialMedia.twitter} className="hover-scale" aria-label="Twitter">
                 <Twitter size={20} className="hover:text-charlotte-accent transition-colors" />
               </a>
-              <a href="https://youtube.com" className="hover-scale" aria-label="Youtube">
+              <a href={contactInfo.socialMedia.youtube} className="hover-scale" aria-label="Youtube">
                 <Youtube size={20} className="hover:text-charlotte-accent transition-colors" />
               </a>
-              <a href="https://wa.me/525633230908?text=Hola%20Charlotte%20ARCS,%20me%20interesa%20comprar" className="hover-scale" aria-label="WhatsApp">
+              <a href={contactInfo.whatsappUrl} className="hover-scale" aria-label="WhatsApp">
                 <MessageCircle size={20} className="hover:text-charlotte-accent transition-colors" />
               </a>
             </div>
@@ -112,33 +132,33 @@ const Footer = () => {
               <li className="flex items-start">
                 <MapPin size={18} className="mr-2 mt-0.5 text-charlotte-accent" />
                 <span className="text-gray-300">
-                  Av. Insurgentes Sur 2375, Col. Tizapán, Ciudad de México, CP 01090
+                  {contactInfo.address}
                 </span>
               </li>
               <li className="flex items-center">
                 <Phone size={18} className="mr-2 text-charlotte-accent" />
-                <a href="tel:+525512345678" className="text-gray-300 hover:text-white transition-colors">
-                  +52 55 1234 5678
+                <a href={`tel:${contactInfo.phone}`} className="text-gray-300 hover:text-white transition-colors">
+                  {contactInfo.phone}
                 </a>
               </li>
               <li className="flex items-center">
                 <Mail size={18} className="mr-2 text-charlotte-accent" />
-                <a href="mailto:contacto@charlottearcs.com" className="text-gray-300 hover:text-white transition-colors">
-                  contacto@charlottearcs.com
+                <a href={`mailto:${contactInfo.email}`} className="text-gray-300 hover:text-white transition-colors">
+                  {contactInfo.email}
                 </a>
               </li>
               <li className="flex items-center">
                 <MessageCircle size={18} className="mr-2 text-charlotte-accent" />
-                <a href="https://wa.me/525633230908?text=Hola%20Charlotte%20ARCS,%20me%20interesa%20comprar" className="text-gray-300 hover:text-white transition-colors">
-                  WhatsApp: +52 56 3323 0908
+                <a href={contactInfo.whatsappUrl} className="text-gray-300 hover:text-white transition-colors">
+                  WhatsApp: {contactInfo.whatsapp}
                 </a>
               </li>
             </ul>
             <div className="mt-6">
               <h5 className="font-semibold mb-2">Horario de Atención</h5>
               <p className="text-gray-300 text-sm">
-                Lunes a Sábado: 10:00 - 20:00<br />
-                Domingo: 11:00 - 18:00
+                {contactInfo.hours.weekdays}<br />
+                {contactInfo.hours.sunday}
               </p>
             </div>
           </div>
