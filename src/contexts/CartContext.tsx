@@ -97,7 +97,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 await supabase
                   .from('cart_items')
                   .delete()
-                  .eq('id', item.id);
+                  .match({ id: item.id });
               } else {
                 // Asignar el item al usuario
                 await supabase
@@ -206,7 +206,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const { error } = await supabase
         .from('cart_items')
         .delete()
-        .eq('id', itemToRemove.id);
+        .match({ id: itemToRemove.id });
         
       if (error) throw error;
       
@@ -241,7 +241,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const { error } = await supabase
         .from('cart_items')
         .update({ quantity })
-        .eq('id', itemToUpdate.id);
+        .match({ id: itemToUpdate.id });
         
       if (error) throw error;
       
