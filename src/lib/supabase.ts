@@ -1,2 +1,4 @@
-// Eliminamos este archivo ya que estamos usando el cliente supabase 
-// de src/integrations/supabase/client.ts
+
+// This file is deprecated and should not be used.
+// Import the supabase client from '@/integrations/supabase/client' instead.
+export { supabase } from '@/integrations/supabase/client';
