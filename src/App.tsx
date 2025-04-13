@@ -13,6 +13,7 @@ import AboutUs from '@/pages/AboutUs';
 import Account from '@/pages/Account';
 import Wishlist from '@/pages/Wishlist';
 import Admin from '@/pages/Admin';
+import ProductDetail from '@/pages/ProductDetail';
 import { CartProvider } from '@/contexts/CartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { WishlistProvider } from '@/contexts/WishlistContext';
@@ -39,6 +40,7 @@ function App() {
                     <Route path="/account" element={<Account />} />
                     <Route path="/about" element={<AboutUs />} />
                     <Route path="/admin" element={<Admin />} />
+                    <Route path="/product/:id" element={<ProductDetail />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Layout>

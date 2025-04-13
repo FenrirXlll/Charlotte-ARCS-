@@ -9,7 +9,10 @@ export interface User {
 export interface Category {
   id: string;
   name: string;
-  path: string;
+  slug: string;
+  image?: string;
+  path?: string;
+  created_at: string;
 }
 
 export interface Product {
@@ -23,6 +26,25 @@ export interface Product {
   category: string;
   is_new: boolean;
   inventory_count: number;
+  created_at: string;
+  updated_at?: string;
+  additional_images?: ProductImage[];
+  details?: ProductDetail[];
+}
+
+export interface ProductImage {
+  id: string;
+  product_id: string;
+  image_url: string;
+  display_order: number;
+  created_at: string;
+}
+
+export interface ProductDetail {
+  id: string;
+  product_id: string;
+  specification_key: string;
+  specification_value: string;
   created_at: string;
 }
 
