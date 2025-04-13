@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
@@ -269,15 +268,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       setLoading(true);
       
-      let query = supabase.from('cart_items');
-      
-      if (user) {
-        query = query.eq('user_id', user.id);
-      } else {
-        query = query.eq('session_id', sessionId);
-      }
-      
-      const { error } = await query.delete();
+      // Fix: Use the proper TypeScript syntax for Supabase queries
+      let { error } = user 
+        ? await supabase
+            .from('cart_items')
+            .delete()
+            .match({ user_id: user.id })
+        : await supabase
+            .from('cart_items')
+            .delete()
+            .match({ session_id: sessionId });
       
       if (error) throw error;
       
