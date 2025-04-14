@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preguntas Frecuentes - Charlotte ARCS</title>
+  <meta name="description" content="Encuentra respuestas a preguntas frecuentes sobre Charlotte ARCS, nuestros productos y servicios.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Enlace a la biblioteca de Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Lovable script tag for new features -->
+  <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+  
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/faq.css">
+</head>
+<body>
+  <!-- Cabecera (Igual que en index.html) -->
+  <header id="main-header">
+    <!-- ... Contenido igual que en index.html ... -->
+  </header>
+
+  <!-- Contenido principal -->
+  <main>
+    <!-- Título de la página -->
+    <section class="page-heading">
+      <div class="container">
+        <h1>Preguntas Frecuentes</h1>
+        <div class="breadcrumbs">
+          <a href="index.html">Inicio</a> / <span>Preguntas Frecuentes</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contenido FAQ -->
+    <section class="faq-section">
+      <div class="container">
+        <div class="faq-categories">
+          <button class="faq-category active" data-category="general">General</button>
+          <button class="faq-category" data-category="products">Productos</button>
+          <button class="faq-category" data-category="orders">Pedidos</button>
+          <button class="faq-category" data-category="shipping">Envíos</button>
+          <button class="faq-category" data-category="returns">Devoluciones</button>
+        </div>
+        
+        <div class="faq-content">
+          <!-- General -->
+          <div class="faq-category-content active" id="general">
+            <div class="faq-item">
+              <div class="faq-question">¿Qué es Charlotte ARCS?</div>
+              <div class="faq-answer">
+                <p>Charlotte ARCS es una marca de moda mexicana enfocada en ofrecer prendas de alta calidad para mujeres, hombres, jóvenes y bebés. Nuestro objetivo es proporcionar moda que refleje la personalidad de nuestros clientes, respetando el medio ambiente y las condiciones laborales justas.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">¿Dónde puedo encontrar tiendas físicas de Charlotte ARCS?</div>
+              <div class="faq-answer">
+                <p>Actualmente, contamos con tiendas físicas en Ciudad de México, Guadalajara y Monterrey. Puedes consultar las direcciones exactas y horarios en nuestra <a href="contact.html">página de contacto</a>.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">¿Cómo puedo contactar con servicio al cliente?</div>
+              <div class="faq-answer">
+                <p>Puedes contactarnos a través de nuestra <a href="contact.html">página de contacto</a>, por correo electrónico a info@charlotte.mx o por teléfono al +52 (55) 5512 3456 de lunes a viernes de 9:00 a 18:00 horas.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Productos -->
+          <div class="faq-category-content" id="products">
+            <div class="faq-item">
+              <div class="faq-question">¿De qué materiales están hechas sus prendas?</div>
+              <div class="faq-answer">
+                <p>Utilizamos una variedad de materiales dependiendo del tipo de prenda, incluyendo algodón orgánico, lino, tencel y otros materiales sostenibles. Cada producto incluye información detallada sobre su composición en la descripción del mismo.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">¿Cómo puedo saber qué talla elegir?</div>
+              <div class="faq-answer">
+                <p>Proporcionamos una guía de tallas detallada para cada categoría de productos. Puedes encontrarla en la página de cada producto o en nuestra sección de guía de tallas. Si tienes dudas específicas, no dudes en contactar con nuestro servicio al cliente.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">¿Sus productos son sustentables?</div>
+              <div class="faq-answer">
+                <p>Estamos comprometidos con la sostenibilidad y trabajamos constantemente para mejorar nuestras prácticas. Muchos de nuestros productos utilizan materiales orgánicos y reciclados, y nuestros procesos de producción están diseñados para minimizar el impacto ambiental.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Pedidos -->
+          <div class="faq-category-content" id="orders">
+            <div class="faq-item">
+              <div class="faq-question">¿Cómo puedo realizar un pedido?</div>
+              <div class="faq-answer">
+                <p>Puedes realizar un pedido fácilmente a través de nuestra tienda en línea. Simplemente navega por nuestras categorías, selecciona los productos que deseas, elige tu talla y color, y agrégalos al carrito. Cuando estés listo para finalizar tu compra, dirígete al carrito y sigue los pasos para completar el proceso de pago.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">¿Qué métodos de pago aceptan?</div>
+              <div class="faq-answer">
+                <p>Aceptamos tarjetas de crédito y débito (Visa, MasterCard, American Express), PayPal, transferencia bancaria y pago en efectivo en tiendas de conveniencia (OXXO).</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">¿Puedo modificar o cancelar mi pedido?</div>
+              <div class="faq-answer">
+                <p>Puedes modificar o cancelar tu pedido dentro de las primeras 2 horas después de realizarlo. Para hacerlo, inicia sesión en tu cuenta y ve a la sección "Mis Pedidos" o contacta directamente con nuestro servicio al cliente.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Envíos -->
+          <div class="faq-category-content" id="shipping">
+            <div class="faq-item">
+              <div class="faq-question">¿Cuánto tiempo tarda en llegar mi pedido?</div>
+              <div class="faq-answer">
+                <p>El tiempo de entrega depende de tu ubicación. Generalmente, los pedidos nacionales tardan entre 3-5 días hábiles en ser entregados. Para envíos internacionales, el tiempo estimado es de 7-14 días hábiles.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">¿Cuál es el costo de envío?</div>
+              <div class="faq-answer">
+                <p>El costo de envío estándar es de $99 MXN para pedidos nacionales. Los envíos son gratuitos para compras superiores a $999 MXN. Para envíos internacionales, el costo varía según el país de destino y se calcula durante el proceso de compra.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">¿Cómo puedo hacer seguimiento de mi pedido?</div>
+              <div class="faq-answer">
+                <p>Una vez que tu pedido haya sido enviado, recibirás un correo electrónico con el número de seguimiento y un enlace para rastrear tu paquete. También puedes verificar el estado de tu pedido en tu cuenta, en la sección "Mis Pedidos".</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Devoluciones -->
+          <div class="faq-category-content" id="returns">
+            <div class="faq-item">
+              <div class="faq-question">¿Cuál es su política de devoluciones?</div>
+              <div class="faq-answer">
+                <p>Aceptamos devoluciones dentro de los 30 días posteriores a la recepción del pedido. Las prendas deben estar en su estado original, con etiquetas y sin haber sido usadas. Para más detalles, consulta nuestra <a href="returns.html">política de devoluciones</a>.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">¿Cómo puedo iniciar una devolución?</div>
+              <div class="faq-answer">
+                <p>Para iniciar una devolución, inicia sesión en tu cuenta, ve a "Mis Pedidos", selecciona el pedido que deseas devolver y sigue las instrucciones. También puedes contactar con nuestro servicio al cliente para recibir asistencia.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">¿Cuánto tiempo tarda en procesarse el reembolso?</div>
+              <div class="faq-answer">
+                <p>Una vez que recibamos y verifiquemos los artículos devueltos, procesaremos el reembolso en un plazo de 5-7 días hábiles. El tiempo que tarda en reflejarse en tu cuenta bancaria depende de tu banco o método de pago utilizado.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="faq-contact">
+          <h2>¿No encontraste la respuesta que buscabas?</h2>
+          <p>Estamos aquí para ayudarte. No dudes en contactarnos a través de nuestra <a href="contact.html">página de contacto</a> o llámanos al +52 (55) 5512 3456.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie de página (Igual que en index.html) -->
+  <footer>
+    <!-- ... Contenido igual que en index.html ... -->
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/faq.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+
+/* Estilos para la sección de testimonios */
+.testimonials {
+  background-color: var(--color-light);
+  padding: var(--spacing-xl) 0;
+}
+
+.testimonial-slider {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.testimonial {
+  display: none;
+  animation: fadeIn 0.8s ease;
+}
+
+.testimonial.active {
+  display: block;
+}
+
+.testimonial-content {
+  background-color: white;
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+
+.testimonial-content p {
+  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-dark);
+}
+
+.testimonial-author {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.testimonial-date {
+  display: block;
+  font-size: 0.8rem;
+  color: #777;
+  font-weight: normal;
+  margin-top: var(--spacing-xs);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Puntos indicadores para el slider */
+.testimonial-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-md);
+}
+
+.testimonial-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #ccc;
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.testimonial-dot.active {
+  background-color: var(--color-primary);
+}
+
+/* Botones de navegación del slider */
+.testimonial-nav {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--spacing-md);
+}
+
+.testimonial-nav button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--color-primary);
+  transition: opacity 0.3s ease;
+}
+
+.testimonial-nav button:hover {
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .testimonial-content p {
+    font-size: 1rem;
+  }
+}

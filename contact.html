@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto - Charlotte ARCS</title>
+  <meta name="description" content="Ponte en contacto con el equipo de Charlotte ARCS. Estamos aquí para ayudarte.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Enlace a la biblioteca de Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Lovable script tag for new features -->
+  <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+  
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/contact.css">
+</head>
+<body>
+  <!-- Cabecera (Igual que en index.html) -->
+  <header id="main-header">
+    <!-- ... Contenido igual que en index.html ... -->
+  </header>
+
+  <!-- Contenido principal -->
+  <main>
+    <!-- Título de la página -->
+    <section class="page-heading">
+      <div class="container">
+        <h1>Contacto</h1>
+        <div class="breadcrumbs">
+          <a href="index.html">Inicio</a> / <span>Contacto</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Información de contacto y formulario -->
+    <section class="contact-section">
+      <div class="container">
+        <div class="contact-content">
+          <div class="contact-info">
+            <h2>Estamos Aquí Para Ayudarte</h2>
+            <p>Tienes preguntas, comentarios o sugerencias? Estamos aquí para escucharte. Ponte en contacto con nosotros y te responderemos lo antes posible.</p>
+            
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <div>
+                <h3>Dirección</h3>
+                <p>Av. Insurgentes Sur 1234, Col. Del Valle<br>Ciudad de México, CP 03100</p>
+              </div>
+            </div>
+            
+            <div class="info-item">
+              <span class="icon">✉️</span>
+              <div>
+                <h3>Correo Electrónico</h3>
+                <p><a href="mailto:info@charlotte.mx">info@charlotte.mx</a></p>
+              </div>
+            </div>
+            
+            <div class="info-item">
+              <span class="icon">📞</span>
+              <div>
+                <h3>Teléfono</h3>
+                <p><a href="tel:+525555123456">+52 (55) 5512 3456</a></p>
+              </div>
+            </div>
+            
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <div>
+                <h3>Horario de Atención</h3>
+                <p>Lunes a Viernes: 9:00 AM - 6:00 PM<br>Sábados: 10:00 AM - 3:00 PM</p>
+              </div>
+            </div>
+            
+            <div class="social-contact">
+              <h3>Síguenos</h3>
+              <div class="social-links">
+                <a href="https://facebook.com/charlottearcs" class="social-link">Facebook</a>
+                <a href="https://instagram.com/charlotte_arcs" class="social-link">Instagram</a>
+                <a href="https://twitter.com/charlotte_arcs" class="social-link">Twitter</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="contact-form-container">
+            <h2>Envíanos un Mensaje</h2>
+            <form id="contact-form" class="contact-form">
+              <div class="alert success" id="contact-success" style="display: none;"></div>
+              <div class="alert error" id="contact-error" style="display: none;"></div>
+              
+              <div class="form-group">
+                <label for="contact-name">Nombre Completo *</label>
+                <input type="text" id="contact-name" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="contact-email">Correo Electrónico *</label>
+                <input type="email" id="contact-email" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="contact-subject">Asunto *</label>
+                <input type="text" id="contact-subject" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="contact-message">Mensaje *</label>
+                <textarea id="contact-message" rows="5" required></textarea>
+              </div>
+              
+              <button type="submit" class="btn primary-btn btn-full">Enviar Mensaje</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mapa de ubicación -->
+    <section class="map-section">
+      <div class="container">
+        <h2 class="section-title">Nuestra Ubicación</h2>
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3763.4094469361143!2d-99.17123788509498!3d19.395773486904785!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ff17111ec78f%3A0x9a8a49c284eb3b7c!2sAv.%20Insurgentes%20Sur%2C%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1ses-419!2smx!4v1618274935974!5m2!1ses-419!2smx" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie de página (Igual que en index.html) -->
+  <footer>
+    <!-- ... Contenido igual que en index.html ... -->
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/contact.js"></script>
+</body>
+</html>
