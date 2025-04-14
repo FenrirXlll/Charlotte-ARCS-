@@ -26,7 +26,8 @@ async function loadComments() {
       .from('comments')
       .select(`
         *,
-        profiles:user_id(full_name)
+        profiles:user_id(full_name),
+        comment_replies(*, profiles:user_id(full_name))
       `)
       .order('created_at', { ascending: false });
     
@@ -74,6 +75,34 @@ function createCommentElement(comment) {
       <p>${comment.content}</p>
     </div>
   `;
+  
+  // Añadir respuestas si hay
+  if (comment.comment_replies && comment.comment_replies.length > 0) {
+    comment.comment_replies.forEach(reply => {
+      const replyElement = document.createElement('div');
+      replyElement.className = 'comment-reply';
+      
+      const replyUserName = reply.profiles ? reply.profiles.full_name : 'Administrador';
+      const replyDate = new Date(reply.created_at).toLocaleDateString();
+      
+      replyElement.innerHTML = `
+        <div class="comment">
+          <div class="comment-header">
+            <div class="comment-user">
+              <span class="user-name">${replyUserName}</span>
+              <span class="admin-badge">Admin</span>
+            </div>
+            <div class="comment-date">${replyDate}</div>
+          </div>
+          <div class="comment-content">
+            <p>${reply.content}</p>
+          </div>
+        </div>
+      `;
+      
+      commentElement.appendChild(replyElement);
+    });
+  }
   
   return commentElement;
 }
@@ -139,100 +168,4 @@ function setupCommentForm() {
 function getProductIdFromUrl() {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get('id');
-}
-
-// Funciones para administración de comentarios (solo para administradores)
-async function loadCommentsForAdmin() {
-  const commentsList = document.getElementById('comments-list');
-  if (!commentsList) return;
-  
-  try {
-    commentsList.innerHTML = '<p>Cargando comentarios...</p>';
-    
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-    
-    const { data, error } = await supabase
-      .from('comments')
-      .select(`
-        *,
-        profiles:user_id(full_name),
-        products:product_id(name)
-      `)
-      .order('created_at', { ascending: false });
-    
-    if (error) throw error;
-    
-    if (data && data.length > 0) {
-      commentsList.innerHTML = '';
-      
-      data.forEach(comment => {
-        const commentCard = document.createElement('div');
-        commentCard.className = 'comment-card';
-        
-        const userName = comment.profiles ? comment.profiles.full_name : 'Usuario';
-        const date = new Date(comment.created_at).toLocaleDateString();
-        const productName = comment.products ? comment.products.name : 'General';
-        
-        commentCard.innerHTML = `
-          <div class="comment-header">
-            <div class="comment-user">
-              <span class="user-name">${userName}</span>
-              ${comment.product_id ? `<span class="comment-product">en <a href="product.html?id=${comment.product_id}">${productName}</a></span>` : ''}
-            </div>
-            <div class="comment-date">${date}</div>
-          </div>
-          <div class="comment-content">
-            <p>${comment.content}</p>
-          </div>
-          <div class="comment-actions">
-            <button class="btn outline-btn reply-comment-btn" data-id="${comment.id}">Responder</button>
-            <button class="btn destructive-btn delete-comment-btn" data-id="${comment.id}">Eliminar</button>
-          </div>
-        `;
-        
-        commentsList.appendChild(commentCard);
-        
-        // Añadir evento al botón de eliminar
-        commentCard.querySelector('.delete-comment-btn').addEventListener('click', function() {
-          const commentId = this.dataset.id;
-          if (confirm('¿Estás seguro de que deseas eliminar este comentario?')) {
-            deleteComment(commentId);
-          }
-        });
-      });
-    } else {
-      commentsList.innerHTML = '<p>No hay comentarios.</p>';
-    }
-  } catch (error) {
-    console.error('Error al cargar los comentarios:', error);
-    commentsList.innerHTML = '<p>Error al cargar los comentarios. Por favor, intenta de nuevo.</p>';
-  }
-}
-
-// Eliminar un comentario (para administradores)
-async function deleteComment(commentId) {
-  try {
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-    
-    const { error } = await supabase
-      .from('comments')
-      .delete()
-      .eq('id', commentId);
-    
-    if (error) throw error;
-    
-    alert('Comentario eliminado con éxito');
-    loadCommentsForAdmin();
-  } catch (error) {
-    console.error('Error al eliminar el comentario:', error);
-    alert('Error al eliminar el comentario: ' + error.message);
-  }
-}
-
-// Exportar funciones para administración
-if (typeof window !== 'undefined') {
-  window.commentsAdmin = {
-    loadCommentsForAdmin,
-    deleteComment
-  };
 }
