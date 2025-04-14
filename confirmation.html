@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedido Confirmado - Charlotte ARCS</title>
+  <meta name="description" content="Confirmación de pedido en Charlotte ARCS.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Enlace a la biblioteca de Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/checkout.css">
+</head>
+<body>
+  <!-- Cabecera (Versión simplificada para checkout) -->
+  <header id="main-header" class="checkout-header">
+    <div class="container">
+      <div class="logo">
+        <a href="index.html">
+          <h1>Charlotte ARCS</h1>
+        </a>
+      </div>
+      <div class="checkout-steps">
+        <div class="step completed">
+          <span class="step-number">1</span>
+          <span class="step-name">Carrito</span>
+        </div>
+        <div class="step completed">
+          <span class="step-number">2</span>
+          <span class="step-name">Detalles</span>
+        </div>
+        <div class="step completed active">
+          <span class="step-number">3</span>
+          <span class="step-name">Confirmación</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenido principal -->
+  <main>
+    <!-- Contenido de confirmación -->
+    <section class="confirmation-content">
+      <div class="container">
+        <div class="confirmation-container">
+          <div class="confirmation-icon">✓</div>
+          <div class="confirmation-message">
+            <h1>¡Gracias por tu compra!</h1>
+            <p>Hemos recibido tu pedido y está siendo procesado.</p>
+          </div>
+          
+          <div class="confirmation-details">
+            <h2>Detalles del Pedido</h2>
+            <div class="detail-row">
+              <span class="detail-label">Número de Pedido:</span>
+              <span id="order-number"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Fecha:</span>
+              <span id="order-date"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Total:</span>
+              <span id="order-total"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Método de Pago:</span>
+              <span id="order-payment"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Estado:</span>
+              <span id="order-status"></span>
+            </div>
+          </div>
+          
+          <div class="confirmation-items" id="order-items">
+            <!-- Productos en el pedido -->
+          </div>
+          
+          <div class="confirmation-message">
+            <p>Te hemos enviado un correo electrónico con los detalles de tu pedido.</p>
+            <p>Si tienes alguna pregunta, no dudes en <a href="contact.html">contactarnos</a>.</p>
+          </div>
+          
+          <div class="confirmation-actions">
+            <a href="index.html" class="btn primary-btn">Volver al Inicio</a>
+            <a href="shop.html" class="btn outline-btn">Continuar Comprando</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie de página simplificado -->
+  <footer class="checkout-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2025 Charlotte ARCS. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/confirmation.js"></script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+
+/* Estilos para el panel de administración */
+.admin-panel {
+  padding-bottom: var(--spacing-xxl);
+}
+
+/* Tabs del panel */
+.admin-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-xl);
+  border-bottom: 1px solid #eee;
+}
+
+.admin-tab {
+  padding: var(--spacing-md) var(--spacing-lg);
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-weight: 500;
+  color: var(--color-dark);
+  transition: all 0.3s ease;
+}
+
+.admin-tab:hover {
+  color: var(--color-accent);
+}
+
+.admin-tab.active {
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+}
+
+/* Contenido de tabs */
+.admin-tab-content {
+  display: none;
+}
+
+.admin-tab-content.active {
+  display: block;
+}
+
+/* Cabecera de sección */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.admin-header h2 {
+  margin-bottom: 0;
+}
+
+/* Formularios */
+.admin-form-section {
+  background-color: #f9f9f9;
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+.form-row {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.form-help {
+  color: #777;
+  font-size: 0.85rem;
+  margin-top: var(--spacing-xs);
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-right: var(--spacing-xs);
+}
+
+/* Vista previa de imágenes */
+.image-preview {
+  margin-top: var(--spacing-md);
+  max-width: 200px;
+  max-height: 200px;
+  overflow: hidden;
+  border-radius: var(--border-radius-md);
+  display: none;
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+}
+
+.current-image-preview {
+  display: block;
+  max-width: 200px;
+  max-height: 200px;
+  margin-top: var(--spacing-xs);
+  border-radius: var(--border-radius-md);
+  border: 1px solid #ddd;
+}
+
+/* Tabla de listados */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--spacing-xl);
+}
+
+.admin-table th, 
+.admin-table td {
+  padding: var(--spacing-md);
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.admin-table th {
+  font-weight: 600;
+  background-color: #f5f5f5;
+}
+
+.admin-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.admin-product-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: var(--border-radius-sm);
+}
+
+/* Botones de acción */
+.edit-product-btn,
+.delete-product-btn {
+  margin-right: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+.destructive-btn {
+  background-color: var(--color-error);
+  color: white;
+}
+
+.destructive-btn:hover {
+  background-color: #b52c35;
+  color: white;
+}
+
+/* Tarjetas de pedidos */
+.order-card {
+  background-color: white;
+  border: 1px solid #eee;
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #eee;
+}
+
+.order-info h3 {
+  margin-bottom: var(--spacing-xs);
+  font-size: 1.2rem;
+}
+
+.order-info p {
+  margin-bottom: var(--spacing-xs);
+  font-size: 0.9rem;
+}
+
+.order-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.status-select {
+  padding: 0.5rem;
+  border-radius: var(--border-radius-sm);
+}
+
+.order-status {
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
+
+.status-pending {
+  background-color: #fef9c3;
+  color: #854d0e;
+}
+
+.status-processing {
+  background-color: #bfdbfe;
+  color: #1e40af;
+}
+
+.status-shipped {
+  background-color: #c7d2fe;
+  color: #3730a3;
+}
+
+.status-delivered {
+  background-color: #bbf7d0;
+  color: #166534;
+}
+
+.status-cancelled {
+  background-color: #fecaca;
+  color: #991b1b;
+}
+
+.order-items,
+.order-shipping {
+  padding: var(--spacing-md);
+}
+
+.order-items h4,
+.order-shipping h4 {
+  margin-bottom: var(--spacing-md);
+  font-size: 1.1rem;
+}
+
+.order-products-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.order-product {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm);
+  background-color: #f9f9f9;
+  border-radius: var(--border-radius-sm);
+}
+
+.order-product img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: var(--border-radius-sm);
+}
+
+.order-product-info p {
+  margin-bottom: var(--spacing-xs);
+  font-size: 0.9rem;
+}
+
+/* Sección de carga */
+.admin-loading {
+  padding: var(--spacing-xxl) 0;
+  text-align: center;
+}
+
+.loading-content {
+  background-color: #f5f5f5;
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-md);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Comentarios */
+.comment-card {
+  background-color: white;
+  border: 1px solid #eee;
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-sm);
+}
+
+.comment-user {
+  font-weight: 500;
+}
+
+.comment-date {
+  color: #777;
+  font-size: 0.85rem;
+}
+
+.comment-content {
+  margin-bottom: var(--spacing-md);
+}
+
+.comment-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: flex-end;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+  
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+  
+  .order-header {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .admin-tab {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.9rem;
+  }
+}

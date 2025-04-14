@@ -18,8 +18,16 @@ async function checkAuthStatus() {
   const { session } = await window.authService.getSession();
   
   if (session) {
-    // Redirigir a la página de inicio si ya está autenticado
-    window.location.href = 'index.html';
+    // Verificar si hay una redirección específica
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectUrl = urlParams.get('redirect');
+    
+    if (redirectUrl) {
+      window.location.href = redirectUrl;
+    } else {
+      // Redirigir a la página de inicio si ya está autenticado
+      window.location.href = 'index.html';
+    }
   }
 }
 
@@ -81,10 +89,28 @@ function setupLoginForm() {
         loginSuccess.textContent = '¡Inicio de sesión exitoso! Redireccionando...';
         loginSuccess.style.display = 'block';
         
-        // Redirigir después de un breve retraso
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 1500);
+        // Verificar si es el administrador
+        if (email === 'admin@charlotte.mx') {
+          // Redirigir al panel de administración
+          setTimeout(() => {
+            window.location.href = 'admin.html';
+          }, 1500);
+        } else {
+          // Verificar si hay una redirección específica
+          const urlParams = new URLSearchParams(window.location.search);
+          const redirectUrl = urlParams.get('redirect');
+          
+          if (redirectUrl) {
+            setTimeout(() => {
+              window.location.href = redirectUrl;
+            }, 1500);
+          } else {
+            // Redirigir a la página principal
+            setTimeout(() => {
+              window.location.href = 'index.html';
+            }, 1500);
+          }
+        }
       } catch (error) {
         console.error('Error al iniciar sesión:', error);
         
@@ -123,6 +149,13 @@ function setupRegisterForm() {
       // Validar contraseñas
       if (password !== confirmPassword) {
         registerError.textContent = 'Las contraseñas no coinciden.';
+        registerError.style.display = 'block';
+        return;
+      }
+      
+      // Verificar si es un intento de registro como administrador
+      if (email === 'admin@charlotte.mx') {
+        registerError.textContent = 'Este correo electrónico no está disponible para registro.';
         registerError.style.display = 'block';
         return;
       }
