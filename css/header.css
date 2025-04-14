@@ -1,0 +1,178 @@
+
+/* Estilos para el encabezado */
+#main-header {
+  background-color: white;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+#main-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
+}
+
+/* Logo */
+.logo a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.logo h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+/* Navegación principal */
+.main-nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav li {
+  margin-left: var(--spacing-lg);
+}
+
+.main-nav a {
+  color: var(--color-dark);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.main-nav a:hover {
+  color: var(--color-accent);
+}
+
+/* Acciones del encabezado (usuario y carrito) */
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.user-actions {
+  margin-right: var(--spacing-lg);
+}
+
+.user-actions a {
+  color: var(--color-dark);
+  font-weight: 500;
+  margin-left: var(--spacing-md);
+}
+
+.shopping-actions {
+  display: flex;
+}
+
+.icon-link {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: var(--spacing-md);
+  color: var(--color-dark);
+}
+
+.icon {
+  font-size: 1.25rem;
+}
+
+.count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--color-secondary);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Botón de menú móvil */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-xs);
+}
+
+.mobile-menu-toggle .bar {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-dark);
+  margin: 5px 0;
+  transition: transform 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .main-nav {
+    display: none;
+  }
+  
+  .mobile-menu-toggle {
+    display: block;
+  }
+  
+  .main-nav.active {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border-top: 1px solid #eee;
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-md);
+  }
+  
+  .main-nav.active ul {
+    flex-direction: column;
+  }
+  
+  .main-nav.active li {
+    margin: var(--spacing-xs) 0;
+  }
+  
+  .header-actions {
+    justify-content: flex-end;
+    flex-grow: 1;
+  }
+  
+  .user-actions {
+    display: none;
+  }
+  
+  .main-nav.active .user-actions {
+    display: block;
+    margin-top: var(--spacing-md);
+  }
+  
+  .main-nav.active .user-actions a {
+    display: block;
+    margin: var(--spacing-xs) 0;
+  }
+  
+  #main-header .container {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+}

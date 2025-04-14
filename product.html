@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle de Producto - Charlotte ARCS</title>
+  <meta name="description" content="Detalles del producto seleccionado en Charlotte ARCS.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Enlace a la biblioteca de Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/product.css">
+</head>
+<body>
+  <!-- Cabecera (Igual que en index.html) -->
+  <header id="main-header">
+    <!-- ... Contenido igual que en index.html ... -->
+  </header>
+
+  <!-- Contenido principal -->
+  <main>
+    <!-- Detalles del producto -->
+    <section class="product-detail">
+      <div class="container">
+        <div class="breadcrumbs">
+          <a href="index.html">Inicio</a> / 
+          <a href="shop.html">Tienda</a> / 
+          <span id="product-breadcrumb">Producto</span>
+        </div>
+        
+        <div class="product-container">
+          <!-- Imágenes del producto -->
+          <div class="product-images">
+            <div class="main-image-container">
+              <img id="main-product-image" src="" alt="Imagen principal del producto">
+            </div>
+            <div class="thumbnail-gallery" id="thumbnail-gallery">
+              <!-- Miniaturas cargadas dinámicamente -->
+            </div>
+          </div>
+          
+          <!-- Información del producto -->
+          <div class="product-info">
+            <h1 id="product-title">Nombre del Producto</h1>
+            
+            <div class="product-price">
+              <span id="current-price" class="current-price">$0.00</span>
+              <span id="original-price" class="original-price">$0.00</span>
+              <span id="discount-badge" class="discount-badge">0% OFF</span>
+            </div>
+            
+            <div class="product-description" id="product-description">
+              <!-- Descripción del producto -->
+            </div>
+            
+            <!-- Opciones de compra -->
+            <div class="purchase-options">
+              <div class="quantity-selector">
+                <label for="quantity">Cantidad:</label>
+                <div class="quantity-controls">
+                  <button id="decrease-quantity" class="quantity-btn">-</button>
+                  <input type="number" id="quantity" min="1" value="1">
+                  <button id="increase-quantity" class="quantity-btn">+</button>
+                </div>
+              </div>
+              
+              <div class="inventory-status" id="inventory-status">
+                <!-- Estado del inventario -->
+              </div>
+              
+              <div class="product-actions">
+                <button id="add-to-cart" class="btn primary-btn">Añadir al Carrito</button>
+                <button id="add-to-wishlist" class="btn outline-btn">❤️ Añadir a Favoritos</button>
+              </div>
+            </div>
+            
+            <!-- Especificaciones del producto -->
+            <div class="product-specs">
+              <h3>Especificaciones</h3>
+              <div class="specs-table" id="specs-table">
+                <!-- Especificaciones cargadas dinámicamente -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Productos relacionados -->
+    <section class="related-products">
+      <div class="container">
+        <h2>Productos Relacionados</h2>
+        <div class="product-grid" id="related-products-container">
+          <!-- Productos relacionados cargados dinámicamente -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie de página (Igual que en index.html) -->
+  <footer>
+    <!-- ... Contenido igual que en index.html ... -->
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/product.js"></script>
+</body>
+</html>

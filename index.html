@@ -1,32 +1,215 @@
 
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Charlotte ARCS - Tu tienda de moda</title>
-    <meta name="description" content="Descubre la moda que refleja tu personalidad en Charlotte ARCS. Ropa y accesorios para mujeres, hombres, jóvenes y bebés." />
-    <meta name="author" content="Charlotte ARCS" />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Charlotte ARCS - Tu tienda de moda</title>
+  <meta name="description" content="Descubre la moda que refleja tu personalidad en Charlotte ARCS. Ropa y accesorios para mujeres, hombres, jóvenes y bebés.">
+  <meta name="author" content="Charlotte ARCS">
 
-    <meta property="og:title" content="Charlotte ARCS - Tu tienda de moda" />
-    <meta property="og:description" content="Descubre la moda que refleja tu personalidad en Charlotte ARCS. Ropa y accesorios para mujeres, hombres, jóvenes y bebés." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  <meta property="og:title" content="Charlotte ARCS - Tu tienda de moda">
+  <meta property="og:description" content="Descubre la moda que refleja tu personalidad en Charlotte ARCS. Ropa y accesorios para mujeres, hombres, jóvenes y bebés.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png">
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@charlotte_arcs" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-  </head>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@charlotte_arcs">
+  <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Enlace a la biblioteca de Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+  <!-- Cabecera -->
+  <header id="main-header">
+    <div class="container">
+      <div class="logo">
+        <a href="index.html">
+          <h1>Charlotte ARCS</h1>
+        </a>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="shop.html">Tienda</a></li>
+          <li><a href="about.html">Acerca de</a></li>
+          <li><a href="contact.html">Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <div class="user-actions">
+          <a href="account.html" id="account-link" style="display: none;">Mi Cuenta</a>
+          <a href="login.html" id="login-link">Iniciar Sesión</a>
+        </div>
+        <div class="shopping-actions">
+          <a href="wishlist.html" class="icon-link">
+            <span class="icon">❤️</span>
+            <span id="wishlist-count" class="count">0</span>
+          </a>
+          <a href="cart.html" class="icon-link">
+            <span class="icon">🛒</span>
+            <span id="cart-count" class="count">0</span>
+          </a>
+        </div>
+      </div>
+      <button class="mobile-menu-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
 
-  <body>
-    <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+  <!-- Contenido principal -->
+  <main>
+    <!-- Banner principal -->
+    <section class="hero-banner">
+      <div class="container">
+        <div class="banner-content">
+          <h2>Moda que Refleja tu Personalidad</h2>
+          <p>Nuevas colecciones que elevan tu estilo</p>
+          <a href="shop.html" class="btn primary-btn">Comprar Ahora</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categorías destacadas -->
+    <section class="featured-categories">
+      <div class="container">
+        <h2 class="section-title">Categorías Destacadas</h2>
+        <div class="category-grid">
+          <div class="category-card">
+            <img src="images/women.jpg" alt="Moda para Mujeres">
+            <div class="category-content">
+              <h3>Mujeres</h3>
+              <a href="shop.html?category=women" class="btn outline-btn">Ver Colección</a>
+            </div>
+          </div>
+          <div class="category-card">
+            <img src="images/men.jpg" alt="Moda para Hombres">
+            <div class="category-content">
+              <h3>Hombres</h3>
+              <a href="shop.html?category=men" class="btn outline-btn">Ver Colección</a>
+            </div>
+          </div>
+          <div class="category-card">
+            <img src="images/youth.jpg" alt="Moda para Jóvenes">
+            <div class="category-content">
+              <h3>Jóvenes</h3>
+              <a href="shop.html?category=youth" class="btn outline-btn">Ver Colección</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Productos destacados -->
+    <section class="featured-products">
+      <div class="container">
+        <h2 class="section-title">Productos Destacados</h2>
+        <div class="product-grid" id="featured-products-container">
+          <!-- Los productos se cargarán dinámicamente desde JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Banner de promoción -->
+    <section class="promo-banner">
+      <div class="container">
+        <div class="promo-content">
+          <h2>Oferta Especial</h2>
+          <p>25% de descuento en todos los artículos de temporada</p>
+          <a href="shop.html?sale=true" class="btn secondary-btn">Ver Ofertas</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonios -->
+    <section class="testimonials">
+      <div class="container">
+        <h2 class="section-title">Lo que Dicen Nuestros Clientes</h2>
+        <div class="testimonial-slider">
+          <div class="testimonial">
+            <div class="testimonial-content">
+              <p>"La calidad de la ropa es excepcional. Siempre encuentro lo que busco en Charlotte ARCS."</p>
+              <div class="testimonial-author">
+                <p>María García</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial">
+            <div class="testimonial-content">
+              <p>"Servicio al cliente increíble y envíos rápidos. ¡Muy recomendable!"</p>
+              <div class="testimonial-author">
+                <p>Juan Pérez</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie de página -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Charlotte ARCS</h3>
+          <p>Tu destino para moda exclusiva y de alta calidad para toda la familia.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook">Facebook</a>
+            <a href="#" aria-label="Instagram">Instagram</a>
+            <a href="#" aria-label="Twitter">Twitter</a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h3>Enlaces Útiles</h3>
+          <ul>
+            <li><a href="about.html">Acerca de Nosotros</a></li>
+            <li><a href="terms.html">Términos y Condiciones</a></li>
+            <li><a href="privacy.html">Política de Privacidad</a></li>
+            <li><a href="faq.html">Preguntas Frecuentes</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Atención al Cliente</h3>
+          <ul>
+            <li><a href="contact.html">Contacto</a></li>
+            <li><a href="returns.html">Devoluciones</a></li>
+            <li><a href="shipping.html">Envíos</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Inscríbete a nuestro boletín</h3>
+          <form id="newsletter-form" class="newsletter-form">
+            <input type="email" placeholder="Tu correo electrónico" required>
+            <button type="submit" class="btn primary-btn">Suscribirse</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Charlotte ARCS. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/home.js"></script>
+</body>
 </html>

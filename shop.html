@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda - Charlotte ARCS</title>
+  <meta name="description" content="Explora nuestra colección de moda exclusiva para mujeres, hombres, jóvenes y bebés.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Enlace a la biblioteca de Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/shop.css">
+</head>
+<body>
+  <!-- Cabecera (Igual que en index.html) -->
+  <header id="main-header">
+    <!-- ... Contenido igual que en index.html ... -->
+  </header>
+
+  <!-- Contenido principal -->
+  <main>
+    <!-- Título de la página -->
+    <section class="page-heading">
+      <div class="container">
+        <h1>Tienda</h1>
+        <div class="breadcrumbs">
+          <a href="index.html">Inicio</a> / <span>Tienda</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contenido de la tienda -->
+    <section class="shop-content">
+      <div class="container">
+        <div class="shop-layout">
+          <!-- Filtros -->
+          <aside class="shop-filters">
+            <div class="filter-section">
+              <h3>Categorías</h3>
+              <ul id="category-filters">
+                <!-- Se cargarán dinámicamente -->
+              </ul>
+            </div>
+            <div class="filter-section">
+              <h3>Precio</h3>
+              <div class="price-filter">
+                <input type="range" id="price-range" min="0" max="1000" step="50">
+                <div class="price-labels">
+                  <span id="min-price">$0</span>
+                  <span id="max-price">$1000</span>
+                </div>
+              </div>
+            </div>
+            <div class="filter-section">
+              <h3>Estado</h3>
+              <div class="checkbox-group">
+                <label>
+                  <input type="checkbox" id="filter-new"> Nuevos
+                </label>
+                <label>
+                  <input type="checkbox" id="filter-sale"> Ofertas
+                </label>
+              </div>
+            </div>
+            <button id="apply-filters" class="btn primary-btn">Aplicar Filtros</button>
+          </aside>
+
+          <!-- Productos -->
+          <div class="products-section">
+            <div class="products-header">
+              <div class="results-count">Mostrando <span id="results-count">0</span> resultados</div>
+              <div class="sort-options">
+                <label for="sort-by">Ordenar por:</label>
+                <select id="sort-by">
+                  <option value="newest">Más recientes</option>
+                  <option value="price-low">Precio: Menor a Mayor</option>
+                  <option value="price-high">Precio: Mayor a Menor</option>
+                </select>
+              </div>
+            </div>
+            <div class="product-grid" id="products-container">
+              <!-- Los productos se cargarán dinámicamente desde JS -->
+            </div>
+            <div class="pagination" id="pagination">
+              <!-- La paginación se generará mediante JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie de página (Igual que en index.html) -->
+  <footer>
+    <!-- ... Contenido igual que en index.html ... -->
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/shop.js"></script>
+</body>
+</html>
