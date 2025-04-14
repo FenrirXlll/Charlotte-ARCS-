@@ -290,16 +290,40 @@ export type Database = {
       }
       Usuarios: {
         Row: {
-          created_at: string
+          "24": string[] | null
+          Contraseña: string[] | null
+          Contraseña_sess: string[] | null
+          "Correo electrónico": string[] | null
+          Fecha_de_nac: string
           id: number
+          Id_pass: string[] | null
+          Lux_admi: string[] | null
+          Name_de_usser: string | null
+          Pass_id: string[] | null
         }
         Insert: {
-          created_at?: string
+          "24"?: string[] | null
+          Contraseña?: string[] | null
+          Contraseña_sess?: string[] | null
+          "Correo electrónico"?: string[] | null
+          Fecha_de_nac?: string
           id?: number
+          Id_pass?: string[] | null
+          Lux_admi?: string[] | null
+          Name_de_usser?: string | null
+          Pass_id?: string[] | null
         }
         Update: {
-          created_at?: string
+          "24"?: string[] | null
+          Contraseña?: string[] | null
+          Contraseña_sess?: string[] | null
+          "Correo electrónico"?: string[] | null
+          Fecha_de_nac?: string
           id?: number
+          Id_pass?: string[] | null
+          Lux_admi?: string[] | null
+          Name_de_usser?: string | null
+          Pass_id?: string[] | null
         }
         Relationships: []
       }

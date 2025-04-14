@@ -1,8 +1,7 @@
-
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
-import type { Product, ProductImage, ProductDetail as ProductDetailType } from '@/types';
+import type { Product, ProductImage } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
@@ -18,11 +17,20 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
+// Definir el tipo ProductDetail aquí para evitar confusión con el nombre del componente
+interface ProductDetailType {
+  id: string;
+  product_id: string;
+  specification_key: string;
+  specification_value: string;
+  created_at?: string;
+}
+
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [additionalImages, setAdditionalImages] = useState<ProductImage[]>([]);
-  const [productDetails, setProductDetails] = useState<ProductDetail[]>([]);
+  const [productDetails, setProductDetails] = useState<ProductDetailType[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
@@ -31,7 +39,7 @@ const ProductDetail = () => {
   const { addItem } = useCart();
   const { addItem: addToWishlist, isInWishlist } = useWishlist();
 
-  // Obtener los datos del producto y sus detalles
+  // Función para obtener los datos del producto y sus detalles
   useEffect(() => {
     const fetchProductData = async () => {
       if (!id) return;
