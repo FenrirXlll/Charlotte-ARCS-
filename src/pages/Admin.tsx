@@ -35,11 +35,14 @@ interface User {
 interface Order {
   id: string;
   user_id: string;
-  status: string;
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
   total: number;
   created_at: string;
   shipping_address: string;
   user_name?: string;
+  profiles?: {
+    full_name?: string;
+  };
 }
 
 interface Comment {
@@ -50,6 +53,12 @@ interface Comment {
   created_at: string;
   user_name?: string;
   product_name?: string;
+  profiles?: {
+    full_name?: string;
+  };
+  products?: {
+    name?: string;
+  };
 }
 
 const Admin = () => {
@@ -179,11 +188,19 @@ const Admin = () => {
       const { data, error } = await supabaseCustom
         .from('profiles')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('updated_at', { ascending: false });
         
       if (error) throw error;
       
-      setUsers(data || []);
+      // Convert profile data to User type
+      const userData: User[] = data.map(profile => ({
+        id: profile.id,
+        full_name: profile.full_name || '',
+        email: '', // Default value since profiles table might not have email
+        created_at: profile.updated_at || new Date().toISOString()
+      }));
+      
+      setUsers(userData);
     } catch (error: any) {
       toast({
         title: "Error",
@@ -345,7 +362,7 @@ const Admin = () => {
           inventory_count: Number(selectedProduct.inventory_count),
           is_new: selectedProduct.is_new,
           discount_percentage: Number(selectedProduct.discount_percentage) || null,
-          updated_at: new Date()
+          updated_at: new Date().toISOString()
         })
         .eq('id', selectedProduct.id);
         
@@ -407,7 +424,7 @@ const Admin = () => {
   };
   
   // Update order status
-  const updateOrderStatus = async (id: string, status: string) => {
+  const updateOrderStatus = async (id: string, status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled') => {
     try {
       const { error } = await supabaseCustom
         .from('orders')

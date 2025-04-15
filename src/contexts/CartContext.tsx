@@ -23,6 +23,7 @@ interface CartContextType {
   clearCart: () => Promise<void>;
   loading: boolean;
   subtotal: number;
+  totalPrice: number; // Added this property
   calculateTotal: (shippingCost: number) => number;
 }
 
@@ -78,6 +79,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const price = item.product?.price || 0;
     return sum + (price * item.quantity);
   }, 0);
+  
+  // Total price without shipping - needed for Cart.tsx
+  const totalPrice = subtotal;
   
   // Calculate total with shipping
   const calculateTotal = (shippingCost: number) => {
@@ -245,7 +249,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         updateQuantity, 
         clearCart, 
         loading, 
-        subtotal, 
+        subtotal,
+        totalPrice, // Added this property
         calculateTotal 
       }}
     >
