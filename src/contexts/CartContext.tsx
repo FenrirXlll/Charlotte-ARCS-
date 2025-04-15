@@ -23,7 +23,7 @@ interface CartContextType {
   clearCart: () => Promise<void>;
   loading: boolean;
   subtotal: number;
-  totalPrice: number; // Added this property
+  totalPrice: number;
   calculateTotal: (shippingCost: number) => number;
 }
 
@@ -250,7 +250,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         clearCart, 
         loading, 
         subtotal,
-        totalPrice, // Added this property
+        totalPrice,
         calculateTotal 
       }}
     >
