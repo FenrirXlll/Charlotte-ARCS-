@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Footer = () => {
@@ -112,8 +112,25 @@ const Footer = () => {
             </ul>
           </div>
           
-          {/* Follow us */}
+          {/* Support & Follow us */}
           <div>
+            {/* New Support Section */}
+            <h4 className="text-lg font-semibold mb-4 border-b border-white/20 pb-2">Soporte</h4>
+            <ul className="space-y-2 mb-6">
+              <li>
+                <Link to="/admin" className="text-white/80 hover:text-white hover:underline flex items-center">
+                  <HelpCircle className="h-4 w-4 mr-2 text-charlotte-primary" />
+                  Panel de Administración
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-white/80 hover:text-white hover:underline">Contacto de Soporte</Link>
+              </li>
+              <li>
+                <Link to="/faq" className="text-white/80 hover:text-white hover:underline">Ayuda & FAQ</Link>
+              </li>
+            </ul>
+            
             <h4 className="text-lg font-semibold mb-4 border-b border-white/20 pb-2">Síguenos</h4>
             <div className="flex space-x-3 mb-6">
               <a 
