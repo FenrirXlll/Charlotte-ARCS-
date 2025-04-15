@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -41,9 +42,6 @@ interface Order {
   shipping_address: string;
   payment_method: string;
   user_name?: string;
-  profiles?: {
-    full_name?: string;
-  };
 }
 
 interface Comment {
@@ -54,12 +52,6 @@ interface Comment {
   created_at: string;
   user_name?: string;
   product_name?: string;
-  profiles?: {
-    full_name?: string;
-  };
-  products?: {
-    name?: string;
-  };
 }
 
 const Admin = () => {
@@ -223,7 +215,7 @@ const Admin = () => {
       // Using a simpler query to avoid foreign key relationship error
       const { data, error } = await supabaseCustom
         .from('comments')
-        .select('*, products:product_id(name)')
+        .select('*')
         .order('created_at', { ascending: false });
         
       if (error) throw error;
@@ -232,7 +224,7 @@ const Admin = () => {
       const formattedComments: Comment[] = data.map(comment => ({
         ...comment,
         user_name: 'Usuario', // Default value since we can't get profile data
-        product_name: comment.products?.name || 'Producto',
+        product_name: 'Producto', // Default value since we can't get product data
         content: comment.content,
         id: comment.id,
         product_id: comment.product_id,
@@ -926,4 +918,82 @@ const Admin = () => {
                                 />
                               ) : (
                                 <div className="h-12 w-12 flex items-center justify-center bg-gray-100 rounded-md">
-                                  <ImageIcon size={20} className="text-
+                                  <ImageIcon size={20} className="text-gray-400" />
+                                </div>
+                              )}
+                            </td>
+                            <td className="py-3 px-4 whitespace-nowrap">{product.name}</td>
+                            <td className="py-3 px-4 whitespace-nowrap">{product.category}</td>
+                            <td className="py-3 px-4 whitespace-nowrap">${product.price.toFixed(2)}</td>
+                            <td className="py-3 px-4 whitespace-nowrap">{product.inventory_count || 0}</td>
+                            <td className="py-3 px-4 whitespace-nowrap">
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="mr-2"
+                                onClick={() => {
+                                  setSelectedProduct(product);
+                                  setIsEditing(true);
+                                  setIsCreating(false);
+                                }}
+                              >
+                                <Edit size={16} className="mr-1" /> Editar
+                              </Button>
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                                onClick={() => deleteProduct(product.id)}
+                              >
+                                <Trash2 size={16} className="mr-1" /> Eliminar
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </TabsContent>
+        
+        {/* Add more tab content here */}
+        <TabsContent value="orders">
+          {/* Orders tab content */}
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-6">Gestión de Pedidos</h2>
+            {/* Orders content here */}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="users">
+          {/* Users tab content */}
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-6">Gestión de Usuarios</h2>
+            {/* Users content here */}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="comments">
+          {/* Comments tab content */}
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-6">Gestión de Comentarios</h2>
+            {/* Comments content here */}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="settings">
+          {/* Settings tab content */}
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-6">Configuración del Sitio</h2>
+            {/* Settings content here */}
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
+
+export default Admin;

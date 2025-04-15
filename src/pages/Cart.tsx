@@ -92,7 +92,7 @@ const Cart = () => {
                       <div className="mt-4 flex justify-between items-center">
                         <div className="flex items-center border rounded">
                           <button 
-                            onClick={() => updateQuantity(item.product.id, Math.max(1, item.quantity - 1))}
+                            onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
                             className="p-2 text-gray-600 hover:text-charlotte-primary"
                           >
                             <Minus size={16} />
@@ -104,20 +104,20 @@ const Cart = () => {
                             onChange={(e) => {
                               const value = parseInt(e.target.value);
                               if (!isNaN(value) && value > 0) {
-                                updateQuantity(item.product.id, value);
+                                updateQuantity(item.id, value);
                               }
                             }}
                             className="w-16 text-center border-0 focus:ring-0"
                           />
                           <button 
-                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
                             className="p-2 text-gray-600 hover:text-charlotte-primary"
                           >
                             <Plus size={16} />
                           </button>
                         </div>
                         <button 
-                          onClick={() => removeItem(item.product.id)}
+                          onClick={() => removeItem(item.id)}
                           className="text-red-500 hover:text-red-700"
                         >
                           <Trash2 size={20} />
