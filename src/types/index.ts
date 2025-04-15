@@ -68,7 +68,7 @@ export interface WishlistItem {
 export interface Order {
   id: string;
   user_id: string;
-  status: 'pending' | 'processing' | 'completed' | 'cancelled';
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
   total: number;
   created_at: string;
   shipping_address: string;

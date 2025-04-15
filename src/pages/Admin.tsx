@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -923,77 +922,4 @@ const Admin = () => {
                               )}
                             </td>
                             <td className="py-3 px-4 whitespace-nowrap">{product.name}</td>
-                            <td className="py-3 px-4 whitespace-nowrap">{product.category}</td>
-                            <td className="py-3 px-4 whitespace-nowrap">${product.price.toFixed(2)}</td>
-                            <td className="py-3 px-4 whitespace-nowrap">{product.inventory_count || 0}</td>
-                            <td className="py-3 px-4 whitespace-nowrap">
-                              <Button 
-                                variant="outline" 
-                                size="sm" 
-                                className="mr-2"
-                                onClick={() => {
-                                  setSelectedProduct(product);
-                                  setIsEditing(true);
-                                  setIsCreating(false);
-                                }}
-                              >
-                                <Edit size={16} className="mr-1" /> Editar
-                              </Button>
-                              <Button 
-                                variant="outline" 
-                                size="sm" 
-                                className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                                onClick={() => deleteProduct(product.id)}
-                              >
-                                <Trash2 size={16} className="mr-1" /> Eliminar
-                              </Button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-        </TabsContent>
-        
-        {/* Add more tab content here */}
-        <TabsContent value="orders">
-          {/* Orders tab content */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-6">Gestión de Pedidos</h2>
-            {/* Orders content here */}
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="users">
-          {/* Users tab content */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-6">Gestión de Usuarios</h2>
-            {/* Users content here */}
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="comments">
-          {/* Comments tab content */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-6">Gestión de Comentarios</h2>
-            {/* Comments content here */}
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="settings">
-          {/* Settings tab content */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-6">Configuración del Sitio</h2>
-            {/* Settings content here */}
-          </div>
-        </TabsContent>
-      </Tabs>
-    </div>
-  );
-};
-
-export default Admin;
+                            <td className="py-3 px
