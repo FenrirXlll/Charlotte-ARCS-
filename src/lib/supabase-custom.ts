@@ -74,9 +74,9 @@ export const authFunctions = {
   // Check if a user is an admin
   checkAdminAccess: async (email: string) => {
     try {
-      // Here you can implement your admin checking logic
-      // For example, checking against a whitelist or a database role
-      return email === 'admin@charlotte.mx';
+      // Verify against the list of admin emails
+      const adminEmails = ['admin@charlotte.mx', 'admin@example.com'];
+      return adminEmails.includes(email);
     } catch (error) {
       console.error('Error checking admin access:', error);
       return false;

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, HelpCircle } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, HelpCircle, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Footer = () => {
@@ -119,7 +119,7 @@ const Footer = () => {
             <ul className="space-y-2 mb-6">
               <li>
                 <Link to="/admin" className="text-white/80 hover:text-white hover:underline flex items-center">
-                  <HelpCircle className="h-4 w-4 mr-2 text-charlotte-primary" />
+                  <Settings className="h-4 w-4 mr-2 text-charlotte-primary" />
                   Panel de Administración
                 </Link>
               </li>

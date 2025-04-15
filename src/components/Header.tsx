@@ -1,19 +1,22 @@
 
 import React, { useState, useEffect } from 'react';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { Search, ShoppingBag, Heart, User, Menu, X, LogOut } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuLink
-} from "@/components/ui/navigation-menu";
-import { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command";
-import { toast } from 'sonner';
-import { useAuth } from '@/contexts/AuthContext';
+  ShoppingCart, 
+  Heart, 
+  User, 
+  LogOut, 
+  Menu, 
+  X, 
+  Search, 
+  ChevronDown,
+  ShoppingBag,
+  Settings
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
+import { useWishlist } from '@/contexts/WishlistContext';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,31 +25,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-const categories = [
-  { name: 'Mujeres', path: '/category/mujeres' },
-  { name: 'Hombres', path: '/category/hombres' },
-  { name: 'Jóvenes', path: '/category/jovenes' },
-  { name: 'Bebés', path: '/category/bebes' },
-  { name: 'Temporada', path: '/category/temporada' },
-  { name: 'Escolar', path: '/category/escolar' },
-  { name: 'Perfumería', path: '/category/perfumeria' },
-  { name: 'Cosméticos', path: '/category/cosmeticos' },
-  { name: 'Joyería', path: '/category/joyeria' },
-  { name: 'Shop-C', path: '/category/shop-c' }
-];
+import { toast } from '@/hooks/use-toast';
+import { authFunctions } from '@/lib/supabase-custom';
 
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchDialogOpen, setSearchDialogOpen] = useState(false);
-  const isMobile = useIsMobile();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { items: cartItems } = useCart();
+  const { items: wishlistItems } = useWishlist();
+  const { user, isAdmin } = useAuth();
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
-  const { count: cartCount } = useCart();
-
-  // Handle scroll event to change header style
+  const location = useLocation();
+  
+  // Handle scroll for sticky header effect
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -55,320 +47,317 @@ const Header = () => {
         setIsScrolled(false);
       }
     };
-
+    
     window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
+  
+  // Close mobile menu when changing routes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+  
+  // Handle search
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
-      setSearchQuery('');
-      setSearchDialogOpen(false);
-      toast.success(`Buscando: ${searchQuery}`);
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
-
-  const handleCategoryClick = (path: string) => {
-    navigate(path);
-    setMobileMenuOpen(false);
-  };
-
+  
+  // Handle logout
   const handleLogout = async () => {
-    await signOut();
-    navigate('/');
+    try {
+      await authFunctions.signOut();
+      navigate('/');
+      toast({
+        title: "Sesión cerrada",
+        description: "Has cerrado sesión correctamente",
+      });
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+      toast({
+        title: "Error",
+        description: "No se pudo cerrar sesión. Inténtalo de nuevo.",
+        variant: "destructive",
+      });
+    }
   };
-
+  
   return (
-    <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-      isScrolled ? 'bg-white shadow-md' : 'bg-white'
-    }`}>
-      {/* Top Header - Promo Banner */}
-      <div className="bg-charlotte-primary text-white py-2 overflow-hidden">
-        <div className="flex space-x-4 banner-slide">
-          <span className="whitespace-nowrap">¡ENVÍO GRATIS EN PEDIDOS MAYORES A $999!</span>
-          <span className="whitespace-nowrap">25% DE DESCUENTO EN NUEVA TEMPORADA</span>
-          <span className="whitespace-nowrap">COMPRA AHORA Y PAGA EN 3 MESES SIN INTERESES</span>
-          <span className="whitespace-nowrap">¡ENVÍO GRATIS EN PEDIDOS MAYORES A $999!</span>
-          <span className="whitespace-nowrap">25% DE DESCUENTO EN NUEVA TEMPORADA</span>
-          <span className="whitespace-nowrap">COMPRA AHORA Y PAGA EN 3 MESES SIN INTERESES</span>
-        </div>
-      </div>
-      
-      {/* Middle Header - Logo & Search */}
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-charlotte-primary rounded-full flex items-center justify-center text-white font-bold text-xl">
-              C
-            </div>
-            <div className="text-2xl md:text-3xl font-bold text-charlotte-dark font-charlotte flex items-center">
-              <span className="text-charlotte-primary">Charlotte</span>
-              <span className="ml-1">ARCS</span>
+    <header 
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        isScrolled ? 'bg-white shadow-md py-2' : 'bg-white py-4'
+      }`}
+    >
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex items-center">
+            <div className="font-charlotte text-2xl font-bold text-charlotte-primary">
+              Charlotte <span className="text-charlotte-secondary">ARCS</span>
             </div>
           </Link>
+          
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex space-x-8">
+            <Link 
+              to="/" 
+              className={`${
+                location.pathname === '/' ? 'text-charlotte-primary font-semibold' : 'text-gray-700'
+              } hover:text-charlotte-primary transition-colors`}
+            >
+              Inicio
+            </Link>
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className={`${
+                  location.pathname.startsWith('/shop') ? 'text-charlotte-primary font-semibold' : 'text-gray-700'
+                } hover:text-charlotte-primary transition-colors flex items-center`}>
+                  Tienda <ChevronDown size={16} className="ml-1" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-48 bg-white">
+                <DropdownMenuLabel>Categorías</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link to="/shop/women" className="w-full">Mujeres</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to="/shop/men" className="w-full">Hombres</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to="/shop/kids" className="w-full">Niños</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link to="/shop/new" className="w-full">Novedades</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to="/shop/sale" className="w-full">Ofertas</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            
+            <Link 
+              to="/about" 
+              className={`${
+                location.pathname === '/about' ? 'text-charlotte-primary font-semibold' : 'text-gray-700'
+              } hover:text-charlotte-primary transition-colors`}
+            >
+              Nosotros
+            </Link>
+            
+            <Link 
+              to="/contact" 
+              className={`${
+                location.pathname === '/contact' ? 'text-charlotte-primary font-semibold' : 'text-gray-700'
+              } hover:text-charlotte-primary transition-colors`}
+            >
+              Contacto
+            </Link>
+          </nav>
+          
+          {/* Search, Cart, Wishlist and Account */}
+          <div className="flex items-center space-x-4">
+            {/* Search */}
+            <form onSubmit={handleSearch} className="hidden md:flex relative">
+              <input
+                type="text"
+                placeholder="Buscar..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-3 pr-8 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-charlotte-primary"
+              />
+              <button 
+                type="submit"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-charlotte-primary"
+              >
+                <Search size={16} />
+              </button>
+            </form>
+            
+            {/* Wishlist */}
+            <Link to="/wishlist" className="relative p-1.5 text-gray-700 hover:text-charlotte-primary transition-colors">
+              <Heart size={20} />
+              {wishlistItems.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-charlotte-secondary text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
+                  {wishlistItems.length}
+                </span>
+              )}
+            </Link>
+            
+            {/* Cart */}
+            <Link to="/cart" className="relative p-1.5 text-gray-700 hover:text-charlotte-primary transition-colors">
+              <ShoppingCart size={20} />
+              {cartItems.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-charlotte-secondary text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
+                  {cartItems.length}
+                </span>
+              )}
+            </Link>
+            
+            {/* User account */}
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="p-1.5 text-gray-700 hover:text-charlotte-primary transition-colors">
+                    <User size={20} />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48 bg-white">
+                  <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <Link to="/account" className="w-full flex items-center">
+                      <User size={16} className="mr-2" /> 
+                      Perfil
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link to="/orders" className="w-full flex items-center">
+                      <ShoppingBag size={16} className="mr-2" /> 
+                      Mis Pedidos
+                    </Link>
+                  </DropdownMenuItem>
+                  {isAdmin && (
+                    <DropdownMenuItem>
+                      <Link to="/admin" className="w-full flex items-center">
+                        <Settings size={16} className="mr-2" /> 
+                        Administración
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <div className="w-full flex items-center text-rose-500">
+                      <LogOut size={16} className="mr-2" /> 
+                      Cerrar Sesión
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/login" className="hidden md:flex items-center text-gray-700 hover:text-charlotte-primary transition-colors">
+                <User size={20} className="mr-1" />
+                <span>Iniciar Sesión</span>
+              </Link>
+            )}
+            
+            {/* Mobile menu toggle */}
+            <button 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-1.5 text-gray-700 hover:text-charlotte-primary transition-colors"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
         
-        {!isMobile && (
-          <div className="hidden md:flex items-center w-1/3 relative">
-            <form onSubmit={handleSearch} className="w-full">
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden pt-4 pb-2 border-t mt-4 animate-fade-in">
+            <nav className="flex flex-col space-y-4">
+              <Link 
+                to="/" 
+                className={`${
+                  location.pathname === '/' ? 'text-charlotte-primary font-semibold' : 'text-gray-700'
+                } hover:text-charlotte-primary transition-colors`}
+              >
+                Inicio
+              </Link>
+              <details className="group">
+                <summary className={`${
+                  location.pathname.startsWith('/shop') ? 'text-charlotte-primary font-semibold' : 'text-gray-700'
+                } hover:text-charlotte-primary transition-colors flex items-center cursor-pointer`}>
+                  Tienda <ChevronDown size={16} className="ml-1 group-open:rotate-180 transition-transform" />
+                </summary>
+                <div className="pl-4 mt-2 flex flex-col space-y-2">
+                  <Link to="/shop/women" className="text-gray-700 hover:text-charlotte-primary">Mujeres</Link>
+                  <Link to="/shop/men" className="text-gray-700 hover:text-charlotte-primary">Hombres</Link>
+                  <Link to="/shop/kids" className="text-gray-700 hover:text-charlotte-primary">Niños</Link>
+                  <Link to="/shop/new" className="text-gray-700 hover:text-charlotte-primary">Novedades</Link>
+                  <Link to="/shop/sale" className="text-gray-700 hover:text-charlotte-primary">Ofertas</Link>
+                </div>
+              </details>
+              <Link 
+                to="/about" 
+                className={`${
+                  location.pathname === '/about' ? 'text-charlotte-primary font-semibold' : 'text-gray-700'
+                } hover:text-charlotte-primary transition-colors`}
+              >
+                Nosotros
+              </Link>
+              <Link 
+                to="/contact" 
+                className={`${
+                  location.pathname === '/contact' ? 'text-charlotte-primary font-semibold' : 'text-gray-700'
+                } hover:text-charlotte-primary transition-colors`}
+              >
+                Contacto
+              </Link>
+              
+              {!user && (
+                <Link 
+                  to="/login" 
+                  className="text-charlotte-primary font-semibold hover:text-charlotte-primary/80 transition-colors"
+                >
+                  Iniciar Sesión
+                </Link>
+              )}
+              
+              {user && (
+                <>
+                  <Link 
+                    to="/account" 
+                    className="text-gray-700 hover:text-charlotte-primary transition-colors"
+                  >
+                    Mi Perfil
+                  </Link>
+                  <Link 
+                    to="/orders" 
+                    className="text-gray-700 hover:text-charlotte-primary transition-colors"
+                  >
+                    Mis Pedidos
+                  </Link>
+                  {isAdmin && (
+                    <Link 
+                      to="/admin" 
+                      className="text-gray-700 hover:text-charlotte-primary transition-colors"
+                    >
+                      Administración
+                    </Link>
+                  )}
+                  <button 
+                    onClick={handleLogout}
+                    className="text-left text-rose-500 hover:text-rose-600 transition-colors"
+                  >
+                    Cerrar Sesión
+                  </button>
+                </>
+              )}
+            </nav>
+            
+            {/* Mobile Search */}
+            <form onSubmit={handleSearch} className="mt-4 relative">
               <input
                 type="text"
                 placeholder="Buscar productos..."
-                className="w-full rounded-full border-2 border-charlotte-light px-4 py-2 focus:border-charlotte-primary outline-none"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-charlotte-primary"
               />
-              <button type="submit" className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                <Search className="text-charlotte-muted" size={20} />
+              <button 
+                type="submit"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-charlotte-primary"
+              >
+                <Search size={18} />
               </button>
             </form>
           </div>
         )}
-        
-        <div className="flex items-center space-x-3">
-          {isMobile && (
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={() => setSearchDialogOpen(true)}
-              className="hover:bg-charlotte-light"
-            >
-              <Search size={24} className="text-charlotte-dark hover:text-charlotte-primary transition-colors" />
-            </Button>
-          )}
-          
-          {!isMobile && (
-            <>
-              {user ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="hover-scale p-0">
-                      <User size={24} className="text-charlotte-dark hover:text-charlotte-primary transition-colors" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                      <Link to="/account">Perfil</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link to="/wishlist">Lista de Deseos</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleLogout}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      <span>Cerrar Sesión</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <Link to="/login" className="hover-scale">
-                  <User size={24} className="text-charlotte-dark hover:text-charlotte-primary transition-colors" />
-                </Link>
-              )}
-              
-              <Link to="/wishlist" className="hover-scale">
-                <Heart size={24} className="text-charlotte-dark hover:text-charlotte-primary transition-colors" />
-              </Link>
-            </>
-          )}
-          
-          <Link to="/cart" className="hover-scale relative">
-            <ShoppingBag size={24} className="text-charlotte-dark hover:text-charlotte-primary transition-colors" />
-            {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-charlotte-accent text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                {cartCount}
-              </span>
-            )}
-          </Link>
-          
-          {isMobile && (
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden"
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </Button>
-          )}
-        </div>
       </div>
-      
-      {/* Desktop Navigation */}
-      {!isMobile && (
-        <nav className="border-t border-b border-gray-200 hidden md:block">
-          <div className="container mx-auto px-4">
-            <NavigationMenu className="mx-auto">
-              <NavigationMenuList className="justify-between w-full py-2">
-                {categories.map((category) => (
-                  <NavigationMenuItem key={category.name}>
-                    <NavigationMenuLink asChild>
-                      <NavLink 
-                        to={category.path}
-                        className={({ isActive }) => 
-                          `text-sm font-medium product-link ${isActive ? 'text-charlotte-primary' : 'text-charlotte-dark hover:text-charlotte-primary'}`
-                        }
-                        onClick={() => handleCategoryClick(category.path)}
-                      >
-                        {category.name}
-                      </NavLink>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                ))}
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div>
-        </nav>
-      )}
-      
-      {/* Mobile Menu */}
-      {isMobile && mobileMenuOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 animate-fade-in" onClick={() => setMobileMenuOpen(false)}>
-          <div className="bg-white h-full w-4/5 max-w-sm absolute right-0 animate-slide-in-right" onClick={(e) => e.stopPropagation()}>
-            <div className="p-4 flex justify-between items-center border-b">
-              <h2 className="text-lg font-semibold">Menú</h2>
-              <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
-                <X size={24} />
-              </Button>
-            </div>
-            
-            {user && (
-              <div className="p-4 border-b">
-                <div className="flex items-center space-x-3 mb-3">
-                  <div className="w-10 h-10 bg-charlotte-primary rounded-full flex items-center justify-center text-white">
-                    <User size={18} />
-                  </div>
-                  <div>
-                    <p className="font-medium">{user.user_metadata?.full_name || user.email}</p>
-                    <p className="text-sm text-gray-500">{user.email}</p>
-                  </div>
-                </div>
-              </div>
-            )}
-            
-            <div className="p-4 border-b">
-              <form onSubmit={handleSearch} className="relative">
-                <input
-                  type="text"
-                  placeholder="Buscar productos..."
-                  className="w-full rounded-full border-2 border-charlotte-light px-4 py-2 focus:border-charlotte-primary outline-none"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <button type="submit" className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                  <Search className="text-charlotte-muted" size={20} />
-                </button>
-              </form>
-            </div>
-            
-            <nav className="p-4">
-              <ul className="space-y-4">
-                {categories.map((category) => (
-                  <li key={category.name}>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start p-2 rounded text-charlotte-dark hover:bg-charlotte-light"
-                      onClick={() => handleCategoryClick(category.path)}
-                    >
-                      {category.name}
-                    </Button>
-                  </li>
-                ))}
-                <li className="border-t pt-4 mt-4">
-                  {user ? (
-                    <NavLink 
-                      to="/account" 
-                      className="flex items-center p-2 space-x-2 text-charlotte-dark hover:bg-charlotte-light rounded"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <User size={20} />
-                      <span>Mi Cuenta</span>
-                    </NavLink>
-                  ) : (
-                    <NavLink 
-                      to="/login" 
-                      className="flex items-center p-2 space-x-2 text-charlotte-dark hover:bg-charlotte-light rounded"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <User size={20} />
-                      <span>Iniciar Sesión</span>
-                    </NavLink>
-                  )}
-                </li>
-                <li>
-                  <NavLink 
-                    to="/wishlist" 
-                    className="flex items-center p-2 space-x-2 text-charlotte-dark hover:bg-charlotte-light rounded"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <Heart size={20} />
-                    <span>Mi Lista de Deseos</span>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink 
-                    to="/about-us" 
-                    className="flex items-center p-2 space-x-2 text-charlotte-dark hover:bg-charlotte-light rounded"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <span>Quiénes Somos</span>
-                  </NavLink>
-                </li>
-                {user && (
-                  <li className="border-t pt-4 mt-4">
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start p-2 text-red-500 hover:bg-red-50 rounded"
-                      onClick={() => {
-                        handleLogout();
-                        setMobileMenuOpen(false);
-                      }}
-                    >
-                      <LogOut size={20} className="mr-2" />
-                      <span>Cerrar Sesión</span>
-                    </Button>
-                  </li>
-                )}
-              </ul>
-            </nav>
-          </div>
-        </div>
-      )}
-      
-      {/* Search Dialog (Mobile) */}
-      <CommandDialog open={searchDialogOpen} onOpenChange={setSearchDialogOpen}>
-        <Command>
-          <form onSubmit={handleSearch}>
-            <CommandInput 
-              placeholder="Buscar productos..." 
-              value={searchQuery}
-              onValueChange={setSearchQuery}
-            />
-          </form>
-          <CommandList>
-            <CommandEmpty>No hay resultados.</CommandEmpty>
-            <CommandGroup heading="Categorías populares">
-              {categories.slice(0, 5).map((category) => (
-                <CommandItem 
-                  key={category.name}
-                  onSelect={() => {
-                    handleCategoryClick(category.path);
-                    setSearchDialogOpen(false);
-                  }}
-                >
-                  {category.name}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </CommandDialog>
     </header>
   );
 };

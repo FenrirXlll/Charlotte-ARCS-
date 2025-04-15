@@ -2,19 +2,28 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { supabaseCustom } from '@/lib/supabase-custom';
-import { CartItem, Product } from '@/types';
-import { v4 as uuidv4 } from 'uuid';
+import { Product } from '@/types';
 import { useAuth } from './AuthContext';
+import { toast as sonnerToast } from 'sonner';
+
+export interface CartItem {
+  id: string;
+  product_id: string;
+  quantity: number;
+  product: Product;
+  session_id?: string;
+  user_id?: string;
+}
 
 interface CartContextType {
   items: CartItem[];
-  addItem: (product: Product, quantity: number) => Promise<void>;
-  removeItem: (productId: string) => Promise<void>;
-  updateQuantity: (productId: string, quantity: number) => Promise<void>;
+  addItem: (product: Product, quantity?: number) => Promise<void>;
+  removeItem: (itemId: string) => Promise<void>;
+  updateQuantity: (itemId: string, quantity: number) => Promise<void>;
   clearCart: () => Promise<void>;
   loading: boolean;
-  count: number;
-  totalPrice: number;
+  subtotal: number;
+  calculateTotal: (shippingCost: number) => number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -22,36 +31,31 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [sessionId, setSessionId] = useState<string>('');
   const { toast } = useToast();
   const { user } = useAuth();
-
-  // Inicializar el sessionId para usuarios no autenticados
-  useEffect(() => {
-    const storedSessionId = localStorage.getItem('cartSessionId');
-    if (storedSessionId) {
-      setSessionId(storedSessionId);
-    } else {
-      const newSessionId = uuidv4();
-      localStorage.setItem('cartSessionId', newSessionId);
-      setSessionId(newSessionId);
-    }
-  }, []);
-
-  // Cargar carrito
+  
+  const generateSessionId = () => {
+    const storedId = localStorage.getItem('cart_session_id');
+    if (storedId) return storedId;
+    
+    const newId = crypto.randomUUID();
+    localStorage.setItem('cart_session_id', newId);
+    return newId;
+  };
+  
+  // Load cart items
   useEffect(() => {
     const loadCart = async () => {
-      if (!sessionId && !user) return;
-      
       setLoading(true);
       try {
-        let query = supabaseCustom
-          .from('cart_items')
-          .select('*, product:products(*)')
+        let query = supabaseCustom.from('cart_items')
+          .select('*, product:products(*)');
         
+        // Filter based on authentication state
         if (user) {
           query = query.eq('user_id', user.id);
         } else {
+          const sessionId = generateSessionId();
           query = query.eq('session_id', sessionId);
         }
         
@@ -65,124 +69,62 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setLoading(false);
       }
     };
-
-    if (sessionId || user) {
-      loadCart();
-    }
-  }, [sessionId, user]);
-
-  // Migrar carrito cuando el usuario inicia sesión
-  useEffect(() => {
-    const migrateCart = async () => {
-      if (user && sessionId && items.length > 0) {
-        try {
-          // Obtener items del carrito del usuario
-          const { data: userCartItems } = await supabaseCustom
-            .from('cart_items')
-            .select('*')
-            .eq('user_id', user.id);
-
-          // Migrar items de la sesión al usuario
-          for (const item of items) {
-            if (!item.user_id) {
-              const existingItem = userCartItems?.find(i => i.product_id === item.product_id);
-              
-              if (existingItem) {
-                // Actualizar cantidad si el producto ya existe
-                await supabaseCustom
-                  .from('cart_items')
-                  .update({ quantity: existingItem.quantity + item.quantity })
-                  .eq('id', existingItem.id);
-                  
-                // Eliminar el item de la sesión
-                await supabaseCustom
-                  .from('cart_items')
-                  .delete()
-                  .match({ id: item.id });
-              } else {
-                // Asignar el item al usuario
-                await supabaseCustom
-                  .from('cart_items')
-                  .update({ user_id: user.id, session_id: null })
-                  .eq('id', item.id);
-              }
-            }
-          }
-          
-          // Recargar el carrito
-          const { data, error } = await supabaseCustom
-            .from('cart_items')
-            .select('*, product:products(*)')
-            .eq('user_id', user.id);
-            
-          if (error) throw error;
-          setItems(data || []);
-        } catch (error: any) {
-          console.error('Error migrating cart:', error.message);
-        }
-      }
-    };
-
-    if (user && sessionId) {
-      migrateCart();
-    }
-  }, [user, sessionId]);
-
-  const addItem = async (product: Product, quantity: number) => {
+    
+    loadCart();
+  }, [user]);
+  
+  // Calculate subtotal
+  const subtotal = items.reduce((sum, item) => {
+    const price = item.product?.price || 0;
+    return sum + (price * item.quantity);
+  }, 0);
+  
+  // Calculate total with shipping
+  const calculateTotal = (shippingCost: number) => {
+    return subtotal + shippingCost;
+  };
+  
+  // Add item to cart
+  const addItem = async (product: Product, quantity = 1) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      
-      // Verificar si el producto ya está en el carrito
+      // Check if product already exists in cart
       const existingItem = items.find(item => item.product_id === product.id);
       
       if (existingItem) {
-        // Actualizar cantidad
-        const newQuantity = existingItem.quantity + quantity;
-        
-        const { error } = await supabaseCustom
-          .from('cart_items')
-          .update({ quantity: newQuantity })
-          .eq('id', existingItem.id);
-          
-        if (error) throw error;
-        
-        // Actualizar estado local
-        setItems(prevItems => 
-          prevItems.map(item => 
-            item.id === existingItem.id 
-              ? { ...item, quantity: newQuantity } 
-              : item
-          )
-        );
-      } else {
-        // Añadir nuevo item
-        const newItem = {
-          id: uuidv4(),
-          product_id: product.id,
-          user_id: user?.id,
-          session_id: user ? null : sessionId,
-          quantity,
-          product
-        };
-        
-        const { error } = await supabaseCustom
-          .from('cart_items')
-          .insert([{
-            id: newItem.id,
-            product_id: newItem.product_id,
-            user_id: newItem.user_id,
-            session_id: newItem.session_id,
-            quantity: newItem.quantity
-          }]);
-          
-        if (error) throw error;
-        
-        // Actualizar estado local
-        setItems(prevItems => [...prevItems, newItem]);
+        // Update quantity of existing item
+        await updateQuantity(existingItem.id, existingItem.quantity + quantity);
+        return;
       }
       
+      // Add new item
+      const newItem: Partial<CartItem> = {
+        id: crypto.randomUUID(),
+        product_id: product.id,
+        quantity,
+        user_id: user?.id,
+        session_id: !user ? generateSessionId() : undefined
+      };
+      
+      const { error } = await supabaseCustom
+        .from('cart_items')
+        .insert([newItem]);
+        
+      if (error) throw error;
+      
+      // Refresh cart after adding item
+      const { data, error: refreshError } = await supabaseCustom
+        .from('cart_items')
+        .select('*, product:products(*)')
+        .eq('id', newItem.id)
+        .single();
+        
+      if (refreshError) throw refreshError;
+      
+      setItems(prev => [...prev, data]);
+      
       toast({
-        title: 'Añadido al carrito',
+        title: 'Producto añadido',
         description: `${product.name} añadido al carrito.`,
         variant: 'default',
       });
@@ -196,26 +138,23 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(false);
     }
   };
-
-  const removeItem = async (productId: string) => {
+  
+  // Remove item from cart
+  const removeItem = async (itemId: string) => {
     try {
       setLoading(true);
-      const itemToRemove = items.find(item => item.product_id === productId);
-      
-      if (!itemToRemove) return;
-      
       const { error } = await supabaseCustom
         .from('cart_items')
         .delete()
-        .match({ id: itemToRemove.id });
+        .eq('id', itemId);
         
       if (error) throw error;
       
-      // Actualizar estado local
-      setItems(prevItems => prevItems.filter(item => item.product_id !== productId));
+      // Update local state
+      setItems(prev => prev.filter(item => item.id !== itemId));
       
       toast({
-        title: 'Eliminado del carrito',
+        title: 'Producto eliminado',
         description: 'Producto eliminado del carrito.',
         variant: 'default',
       });
@@ -229,65 +168,61 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(false);
     }
   };
-
-  const updateQuantity = async (productId: string, quantity: number) => {
-    if (quantity < 1) return;
+  
+  // Update item quantity
+  const updateQuantity = async (itemId: string, quantity: number) => {
+    if (quantity < 1) {
+      await removeItem(itemId);
+      return;
+    }
     
     try {
       setLoading(true);
-      const itemToUpdate = items.find(item => item.product_id === productId);
-      
-      if (!itemToUpdate) return;
-      
       const { error } = await supabaseCustom
         .from('cart_items')
         .update({ quantity })
-        .match({ id: itemToUpdate.id });
+        .eq('id', itemId);
         
       if (error) throw error;
       
-      // Actualizar estado local
-      setItems(prevItems => 
-        prevItems.map(item => 
-          item.product_id === productId 
-            ? { ...item, quantity } 
-            : item
-        )
-      );
+      // Update local state
+      setItems(prev => prev.map(item => 
+        item.id === itemId ? { ...item, quantity } : item
+      ));
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: `No se pudo actualizar el carrito: ${error.message}`,
+        description: `No se pudo actualizar la cantidad: ${error.message}`,
         variant: 'destructive',
       });
     } finally {
       setLoading(false);
     }
   };
-
+  
+  // Clear all items from cart
   const clearCart = async () => {
     try {
       setLoading(true);
+      let query = supabaseCustom.from('cart_items').delete();
       
-      // Fix: Use the proper TypeScript syntax for Supabase queries
-      let { error } = user 
-        ? await supabaseCustom
-            .from('cart_items')
-            .delete()
-            .match({ user_id: user.id })
-        : await supabaseCustom
-            .from('cart_items')
-            .delete()
-            .match({ session_id: sessionId });
+      // Filter based on authentication state
+      if (user) {
+        query = query.eq('user_id', user.id);
+      } else {
+        const sessionId = generateSessionId();
+        query = query.eq('session_id', sessionId);
+      }
       
+      const { error } = await query;
       if (error) throw error;
       
-      // Actualizar estado local
+      // Clear local state
       setItems([]);
       
       toast({
         title: 'Carrito vacío',
-        description: 'Se han eliminado todos los productos del carrito.',
+        description: 'Todos los productos han sido eliminados del carrito.',
         variant: 'default',
       });
     } catch (error: any) {
@@ -300,15 +235,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(false);
     }
   };
-
-  // Calcular total de productos
-  const count = items.reduce((total, item) => total + item.quantity, 0);
   
-  // Calcular precio total
-  const totalPrice = items.reduce((total, item) => {
-    return total + (item.product.price * item.quantity);
-  }, 0);
-
   return (
     <CartContext.Provider 
       value={{ 
@@ -318,8 +245,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         updateQuantity, 
         clearCart, 
         loading, 
-        count, 
-        totalPrice 
+        subtotal, 
+        calculateTotal 
       }}
     >
       {children}
