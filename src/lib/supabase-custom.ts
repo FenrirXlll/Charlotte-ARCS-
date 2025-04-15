@@ -1,6 +1,6 @@
 
 import { createClient } from '@supabase/supabase-js';
-import { Database } from '@/types/supabase';
+import { ExtendedDatabase as Database } from '@/types/supabase';
 
 // Project URL and anon key
 const supabaseUrl = 'https://rjzhkazdkwgwphewtyna.supabase.co';
