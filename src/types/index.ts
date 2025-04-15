@@ -73,6 +73,7 @@ export interface Order {
   created_at: string;
   shipping_address: string;
   payment_method: string;
+  user_name?: string;
 }
 
 export interface OrderItem {

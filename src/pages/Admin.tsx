@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -22,25 +23,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabaseCustom } from '@/lib/supabase-custom';
-import { Product } from '@/types';
+import { Product, Order } from '@/types';
 
 interface User {
   id: string;
   email: string;
   created_at: string;
   full_name?: string;
-}
-
-// Update Order to match the possible status values in the database
-interface Order {
-  id: string;
-  user_id: string;
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
-  total: number;
-  created_at: string;
-  shipping_address: string;
-  payment_method: string;
-  user_name?: string;
 }
 
 interface Comment {
@@ -157,7 +146,7 @@ const Admin = () => {
       const formattedOrders: Order[] = data.map(order => ({
         ...order,
         user_name: 'Usuario', // Default value since we can't get profile data
-        status: (order.status as 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'),
+        status: order.status as 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled',
         payment_method: order.payment_method,
         shipping_address: order.shipping_address,
         total: order.total,
@@ -419,7 +408,7 @@ const Admin = () => {
     }
   };
   
-  // Update order status - fixed type issues
+  // Update order status - corregido para usar los tipos adecuados
   const updateOrderStatus = async (id: string, status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled') => {
     try {
       const { error } = await supabaseCustom
@@ -483,7 +472,7 @@ const Admin = () => {
   // Filter orders based on search query and status
   const filteredOrders = orders.filter(order => {
     const matchesSearch = order.id.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
-                          order.user_name?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
+                          (order.user_name ? order.user_name.toLowerCase().includes(orderSearchQuery.toLowerCase()) : false) ||
                           order.shipping_address.toLowerCase().includes(orderSearchQuery.toLowerCase());
     
     const matchesStatus = orderStatusFilter ? order.status === orderStatusFilter : true;
@@ -493,15 +482,15 @@ const Admin = () => {
   
   // Filter users based on search query
   const filteredUsers = users.filter(user => 
-    user.email?.toLowerCase().includes(userSearchQuery.toLowerCase()) ||
-    user.full_name?.toLowerCase().includes(userSearchQuery.toLowerCase())
+    (user.email?.toLowerCase().includes(userSearchQuery.toLowerCase()) || false) ||
+    (user.full_name?.toLowerCase().includes(userSearchQuery.toLowerCase()) || false)
   );
   
   // Filter comments based on search query
   const filteredComments = comments.filter(comment => 
     comment.content.toLowerCase().includes(commentSearchQuery.toLowerCase()) ||
-    comment.user_name?.toLowerCase().includes(commentSearchQuery.toLowerCase()) ||
-    comment.product_name?.toLowerCase().includes(commentSearchQuery.toLowerCase())
+    (comment.user_name?.toLowerCase().includes(commentSearchQuery.toLowerCase()) || false) ||
+    (comment.product_name?.toLowerCase().includes(commentSearchQuery.toLowerCase()) || false)
   );
   
   if (authLoading) {
@@ -922,4 +911,373 @@ const Admin = () => {
                               )}
                             </td>
                             <td className="py-3 px-4 whitespace-nowrap">{product.name}</td>
-                            <td className="py-3 px
+                            <td className="py-3 px-4 whitespace-nowrap">{product.category}</td>
+                            <td className="py-3 px-4 whitespace-nowrap">${product.price.toFixed(2)}</td>
+                            <td className="py-3 px-4 whitespace-nowrap">{product.inventory_count || 0}</td>
+                            <td className="py-3 px-4 whitespace-nowrap">
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="mr-2"
+                                onClick={() => {
+                                  setSelectedProduct(product);
+                                  setIsEditing(true);
+                                  setIsCreating(false);
+                                }}
+                              >
+                                <Edit size={16} className="mr-1" /> Editar
+                              </Button>
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                                onClick={() => deleteProduct(product.id)}
+                              >
+                                <Trash size={16} className="mr-1" /> Eliminar
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </TabsContent>
+        
+        {/* Ordenes Tab */}
+        <TabsContent value="orders">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-6">Gestión de Pedidos</h2>
+            
+            {/* Filtros de pedidos */}
+            <div className="mb-6 bg-gray-50 p-4 rounded-lg">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Buscar</label>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                    <Input
+                      type="text"
+                      placeholder="Buscar pedidos..."
+                      value={orderSearchQuery}
+                      onChange={(e) => setOrderSearchQuery(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-1">Estado</label>
+                  <select
+                    value={orderStatusFilter}
+                    onChange={(e) => setOrderStatusFilter(e.target.value)}
+                    className="w-full rounded-md border border-gray-300 py-2 px-3"
+                  >
+                    <option value="">Todos los estados</option>
+                    <option value="pending">Pendiente</option>
+                    <option value="processing">Procesando</option>
+                    <option value="shipped">Enviado</option>
+                    <option value="delivered">Entregado</option>
+                    <option value="cancelled">Cancelado</option>
+                  </select>
+                </div>
+                
+                <div className="flex items-end">
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setOrderSearchQuery('');
+                      setOrderStatusFilter('');
+                    }}
+                    className="h-10"
+                  >
+                    Limpiar filtros
+                  </Button>
+                </div>
+              </div>
+            </div>
+            
+            {/* Lista de pedidos */}
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-charlotte-primary mx-auto"></div>
+                <p className="mt-4 text-gray-600">Cargando pedidos...</p>
+              </div>
+            ) : (
+              <>
+                {filteredOrders.length === 0 ? (
+                  <div className="text-center py-12 bg-gray-50 rounded-lg">
+                    <p className="text-gray-500">No se encontraron pedidos.</p>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                          <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
+                          <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                          <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                          <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                          <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200">
+                        {filteredOrders.map((order) => (
+                          <tr key={order.id} className="hover:bg-gray-50">
+                            <td className="py-3 px-4 whitespace-nowrap font-medium">{order.id.slice(0, 8)}</td>
+                            <td className="py-3 px-4 whitespace-nowrap">{order.user_name || 'Usuario'}</td>
+                            <td className="py-3 px-4 whitespace-nowrap">
+                              {new Date(order.created_at).toLocaleDateString()}
+                            </td>
+                            <td className="py-3 px-4 whitespace-nowrap">${order.total.toFixed(2)}</td>
+                            <td className="py-3 px-4 whitespace-nowrap">
+                              <span 
+                                className={`px-2 py-1 text-xs rounded-full ${
+                                  order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                  order.status === 'processing' ? 'bg-blue-100 text-blue-800' :
+                                  order.status === 'shipped' ? 'bg-indigo-100 text-indigo-800' :
+                                  order.status === 'delivered' ? 'bg-green-100 text-green-800' :
+                                  'bg-red-100 text-red-800'
+                                }`}
+                              >
+                                {order.status === 'pending' ? 'Pendiente' :
+                                 order.status === 'processing' ? 'Procesando' :
+                                 order.status === 'shipped' ? 'Enviado' :
+                                 order.status === 'delivered' ? 'Entregado' :
+                                 'Cancelado'}
+                              </span>
+                            </td>
+                            <td className="py-3 px-4">
+                              <select
+                                className="text-sm rounded border border-gray-300 py-1 px-2"
+                                value={order.status}
+                                onChange={(e) => updateOrderStatus(
+                                  order.id, 
+                                  e.target.value as 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'
+                                )}
+                              >
+                                <option value="pending">Pendiente</option>
+                                <option value="processing">Procesando</option>
+                                <option value="shipped">Enviado</option>
+                                <option value="delivered">Entregado</option>
+                                <option value="cancelled">Cancelado</option>
+                              </select>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </TabsContent>
+        
+        {/* Users Tab */}
+        <TabsContent value="users">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-6">Gestión de Usuarios</h2>
+            
+            {/* Buscar usuarios */}
+            <div className="mb-6">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                <Input
+                  type="text"
+                  placeholder="Buscar usuarios..."
+                  value={userSearchQuery}
+                  onChange={(e) => setUserSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </div>
+            
+            {/* Lista de usuarios */}
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-charlotte-primary mx-auto"></div>
+                <p className="mt-4 text-gray-600">Cargando usuarios...</p>
+              </div>
+            ) : (
+              <>
+                {filteredUsers.length === 0 ? (
+                  <div className="text-center py-12 bg-gray-50 rounded-lg">
+                    <p className="text-gray-500">No se encontraron usuarios.</p>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                          <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                          <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                          <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de registro</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200">
+                        {filteredUsers.map((user) => (
+                          <tr key={user.id} className="hover:bg-gray-50">
+                            <td className="py-3 px-4 whitespace-nowrap font-medium">{user.id.slice(0, 8)}</td>
+                            <td className="py-3 px-4 whitespace-nowrap">{user.full_name || 'Sin nombre'}</td>
+                            <td className="py-3 px-4 whitespace-nowrap">{user.email || 'Sin email'}</td>
+                            <td className="py-3 px-4 whitespace-nowrap">
+                              {new Date(user.created_at).toLocaleDateString()}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </TabsContent>
+        
+        {/* Comments Tab */}
+        <TabsContent value="comments">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-6">Gestión de Comentarios</h2>
+            
+            {/* Buscar comentarios */}
+            <div className="mb-6">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                <Input
+                  type="text"
+                  placeholder="Buscar comentarios..."
+                  value={commentSearchQuery}
+                  onChange={(e) => setCommentSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </div>
+            
+            {/* Lista de comentarios */}
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-charlotte-primary mx-auto"></div>
+                <p className="mt-4 text-gray-600">Cargando comentarios...</p>
+              </div>
+            ) : (
+              <>
+                {filteredComments.length === 0 ? (
+                  <div className="text-center py-12 bg-gray-50 rounded-lg">
+                    <p className="text-gray-500">No se encontraron comentarios.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {filteredComments.map((comment) => (
+                      <div 
+                        key={comment.id} 
+                        className="bg-gray-50 p-4 rounded-lg border border-gray-200"
+                      >
+                        <div className="flex justify-between">
+                          <div>
+                            <p className="font-medium">{comment.user_name || 'Usuario'}</p>
+                            <p className="text-sm text-gray-500">
+                              {new Date(comment.created_at).toLocaleDateString()} · 
+                              Producto: {comment.product_name || 'Producto'}
+                            </p>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                            onClick={() => deleteComment(comment.id)}
+                          >
+                            <Trash size={16} />
+                          </Button>
+                        </div>
+                        <p className="mt-2">{comment.content}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </TabsContent>
+        
+        {/* Settings Tab */}
+        <TabsContent value="settings">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-6">Configuración del Sitio</h2>
+            
+            <div className="space-y-6">
+              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <h3 className="font-medium mb-4">Configuración General</h3>
+                
+                <div className="space-y-4">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="enable_store"
+                      className="rounded mr-2"
+                      checked={true}
+                    />
+                    <label htmlFor="enable_store" className="text-sm font-medium">
+                      Tienda habilitada
+                    </label>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Mensaje de la tienda</label>
+                    <Input
+                      placeholder="Ej: ¡Envío gratis en pedidos mayores a $50!"
+                      defaultValue="¡Envío gratis en pedidos mayores a $50!"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Este mensaje se mostrará en la parte superior de la tienda.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <h3 className="font-medium mb-4">Configuración de Envío</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Tarifa de envío ($)</label>
+                    <Input
+                      type="number"
+                      defaultValue="5.00"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Umbral para envío gratuito ($)</label>
+                    <Input
+                      type="number"
+                      defaultValue="50.00"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Los pedidos por encima de este monto tendrán envío gratuito.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex justify-end">
+                <Button
+                  className="bg-charlotte-primary hover:bg-charlotte-primary/90"
+                >
+                  Guardar Configuración
+                </Button>
+              </div>
+            </div>
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
+
+export default Admin;
