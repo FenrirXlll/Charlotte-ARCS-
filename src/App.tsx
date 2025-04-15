@@ -14,6 +14,12 @@ import Account from '@/pages/Account';
 import Wishlist from '@/pages/Wishlist';
 import Admin from '@/pages/Admin';
 import ProductDetail from '@/pages/ProductDetail';
+import TermsAndConditions from '@/pages/TermsAndConditions';
+import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import FAQ from '@/pages/FAQ';
+import Contact from '@/pages/Contact';
+import Returns from '@/pages/Returns';
+import Shipping from '@/pages/Shipping';
 import { CartProvider } from '@/contexts/CartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { WishlistProvider } from '@/contexts/WishlistContext';
@@ -41,6 +47,12 @@ function App() {
                     <Route path="/about" element={<AboutUs />} />
                     <Route path="/admin" element={<Admin />} />
                     <Route path="/product/:id" element={<ProductDetail />} />
+                    <Route path="/terms" element={<TermsAndConditions />} />
+                    <Route path="/privacy" element={<PrivacyPolicy />} />
+                    <Route path="/faq" element={<FAQ />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/returns" element={<Returns />} />
+                    <Route path="/shipping" element={<Shipping />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Layout>

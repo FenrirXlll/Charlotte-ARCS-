@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import BannerSlider from '@/components/BannerSlider';
 import ProductCard from '@/components/ProductCard';
 import CategoryBanner from '@/components/CategoryBanner';
+import Testimonials from '@/components/Testimonials';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -286,8 +287,11 @@ const Index = () => {
         </Tabs>
       </section>
 
+      {/* Testimonials Section */}
+      <Testimonials />
+
       {/* Split Banner (Shop by gender) */}
-      <section className="container mx-auto px-4 mb-12">
+      <section className="container mx-auto px-4 mb-12 mt-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           <div className="relative overflow-hidden rounded-lg h-[300px]">
             <img 
