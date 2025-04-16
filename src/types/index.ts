@@ -84,3 +84,17 @@ export interface OrderItem {
   price: number;
   product: Product;
 }
+
+export interface Comment {
+  id: string;
+  user_id: string;
+  content: string;
+  rating: number;
+  created_at: string;
+  user_name: string;
+  user_avatar?: string;
+  product_id?: string;
+  product_name?: string;
+  reply_to?: string;
+  replies?: Comment[];
+}

@@ -34,6 +34,7 @@
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/home.css">
   <link rel="stylesheet" href="css/testimonials.css">
+  <link rel="stylesheet" href="css/comments.css">
 </head>
 <body>
   <!-- Cabecera -->
@@ -149,6 +150,55 @@
         </div>
       </div>
     </section>
+
+    <!-- Comentarios de clientes -->
+    <section class="comments-section">
+      <div class="container">
+        <h2 class="section-title">Comentarios de Nuestros Clientes</h2>
+        <div class="rating-summary">
+          <div class="average-rating">4.5</div>
+          <div class="stars-container">
+            <span class="star filled">★</span>
+            <span class="star filled">★</span>
+            <span class="star filled">★</span>
+            <span class="star filled">★</span>
+            <span class="star half-filled">★</span>
+          </div>
+          <p>Basado en 10 opiniones</p>
+        </div>
+        
+        <div class="view-toggle">
+          <button class="view-button active" data-view="list">Lista</button>
+          <button class="view-button" data-view="table">Tabla</button>
+        </div>
+        
+        <div class="comments-container" id="comments-container">
+          <!-- Los comentarios se cargarán dinámicamente desde JS -->
+        </div>
+        
+        <div class="comment-form">
+          <h3>Deja tu comentario</h3>
+          <form id="comment-form">
+            <div class="form-group">
+              <label for="rating">Calificación:</label>
+              <div class="stars-container" id="rating-stars">
+                <span class="star filled" data-rating="1">★</span>
+                <span class="star filled" data-rating="2">★</span>
+                <span class="star filled" data-rating="3">★</span>
+                <span class="star filled" data-rating="4">★</span>
+                <span class="star filled" data-rating="5">★</span>
+              </div>
+              <input type="hidden" id="rating" name="rating" value="5">
+            </div>
+            <div class="form-group">
+              <label for="comment">Tu comentario:</label>
+              <textarea id="comment" name="comment" placeholder="Comparte tu experiencia con nosotros..." required></textarea>
+            </div>
+            <button type="submit" class="btn primary-btn">Enviar comentario</button>
+          </form>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Pie de página -->
@@ -201,5 +251,6 @@
   <script src="js/header.js"></script>
   <script src="js/home.js"></script>
   <script src="js/testimonials.js"></script>
+  <script src="js/comments.js"></script>
 </body>
 </html>

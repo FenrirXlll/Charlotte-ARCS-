@@ -1,9 +1,9 @@
-
 import React, { useEffect } from 'react';
 import BannerSlider from '@/components/BannerSlider';
 import ProductCard from '@/components/ProductCard';
 import CategoryBanner from '@/components/CategoryBanner';
 import Testimonials from '@/components/Testimonials';
+import CustomerComments from '@/components/CustomerComments';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -507,6 +507,9 @@ const Index = () => {
       {/* Testimonials Section */}
       <Testimonials />
 
+      {/* Customer Comments Section */}
+      <CustomerComments />
+
       {/* Split Banner (Actech partnership) */}
       <section className="container mx-auto px-4 mb-12 mt-12">
         <div className="bg-charlotte-light rounded-lg p-8 text-center">
@@ -546,57 +549,4 @@ const Index = () => {
             <div className="text-center fade-in opacity-0 transform translate-y-10 transition-all duration-500" style={{ transitionDelay: '100ms' }}>
               <div className="w-16 h-16 bg-charlotte-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-white">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-charlotte-dark mb-2">Productos Exclusivos</h3>
-              <p className="text-charlotte-muted">Diseños únicos y creativos</p>
-            </div>
-            
-            <div className="text-center fade-in opacity-0 transform translate-y-10 transition-all duration-500" style={{ transitionDelay: '200ms' }}>
-              <div className="w-16 h-16 bg-charlotte-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-white">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0 0 12 2.25Z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-charlotte-dark mb-2">Pagos Seguros</h3>
-              <p className="text-charlotte-muted">Múltiples opciones de pago</p>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Instagram Feed Section */}
-      <section className="container mx-auto px-4 mb-12">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-charlotte-dark mb-2">Síguenos en Instagram</h2>
-          <p className="text-charlotte-muted">@charlotte_arcs</p>
-        </div>
-        
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
-          {[1, 2, 3, 4, 5, 6].map((item) => (
-            <div 
-              key={item} 
-              className="relative aspect-square overflow-hidden fade-in opacity-0 transform translate-y-10 transition-all duration-500"
-              style={{ transitionDelay: `${item * 50}ms` }}
-            >
-              <img 
-                src={`https://picsum.photos/400/400?random=${item}`} 
-                alt={`Instagram Post ${item}`}
-                className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-charlotte-primary/20 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-white">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-    </div>
-  );
-};
-
-export default Index;
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63
