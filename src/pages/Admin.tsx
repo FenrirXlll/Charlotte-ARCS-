@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -409,7 +408,7 @@ const Admin = () => {
   };
   
   // Update order status - corregido para usar los tipos adecuados
-  const updateOrderStatus = async (id: string, status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled') => {
+  const updateOrderStatus = async (id: string, status: 'pending' | 'processing' | 'completed' | 'shipped' | 'delivered' | 'cancelled') => {
     try {
       const { error } = await supabaseCustom
         .from('orders')
@@ -1057,11 +1056,12 @@ const Admin = () => {
                                 value={order.status}
                                 onChange={(e) => updateOrderStatus(
                                   order.id, 
-                                  e.target.value as 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'
+                                  e.target.value as 'pending' | 'processing' | 'completed' | 'shipped' | 'delivered' | 'cancelled'
                                 )}
                               >
                                 <option value="pending">Pendiente</option>
                                 <option value="processing">Procesando</option>
+                                <option value="completed">Completado</option>
                                 <option value="shipped">Enviado</option>
                                 <option value="delivered">Entregado</option>
                                 <option value="cancelled">Cancelado</option>
