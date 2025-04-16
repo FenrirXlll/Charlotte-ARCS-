@@ -68,18 +68,20 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-8">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key="page-content"
-            initial="initial"
-            animate={isPageLoaded ? "animate" : "initial"}
-            exit="exit"
-            variants={pageVariants}
-          >
-            {children}
-          </motion.div>
-        </AnimatePresence>
+      <main className="flex-grow container mx-auto px-4 py-8 flex justify-center">
+        <div className="w-full max-w-6xl">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key="page-content"
+              initial="initial"
+              animate={isPageLoaded ? "animate" : "initial"}
+              exit="exit"
+              variants={pageVariants}
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </main>
       <Footer />
       

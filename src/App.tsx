@@ -7,12 +7,10 @@ import Layout from '@/components/Layout';
 import Index from '@/pages/Index';
 import Cart from '@/pages/Cart';
 import Login from '@/pages/Login';
-import Register from '@/pages/Register';
 import NotFound from '@/pages/NotFound';
 import AboutUs from '@/pages/AboutUs';
 import Account from '@/pages/Account';
 import Wishlist from '@/pages/Wishlist';
-import Admin from '@/pages/Admin';
 import ProductDetail from '@/pages/ProductDetail';
 import TermsAndConditions from '@/pages/TermsAndConditions';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
@@ -42,10 +40,8 @@ function App() {
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
                     <Route path="/account" element={<Account />} />
                     <Route path="/about" element={<AboutUs />} />
-                    <Route path="/admin" element={<Admin />} />
                     <Route path="/product/:id" element={<ProductDetail />} />
                     <Route path="/terms" element={<TermsAndConditions />} />
                     <Route path="/privacy" element={<PrivacyPolicy />} />
