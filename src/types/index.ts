@@ -1,3 +1,4 @@
+
 export interface User {
   id: string;
   email: string;
@@ -67,7 +68,7 @@ export interface WishlistItem {
 export interface Order {
   id: string;
   user_id: string;
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  status: 'pending' | 'processing' | 'completed' | 'shipped' | 'delivered' | 'cancelled';
   total: number;
   created_at: string;
   shipping_address: string;
