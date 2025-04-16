@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
-// Sample data for slider
+// Banners para slider principal
 const bannerSlides = [
   {
     id: 1,
@@ -22,119 +22,281 @@ const bannerSlides = [
   {
     id: 2,
     image: "https://images.pexels.com/photos/5709665/pexels-photo-5709665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    title: "Moda para toda la familia",
-    subtitle: "Todo lo que necesitas para cada miembro de tu familia",
+    title: "Perfumes Exclusivos",
+    subtitle: "Fragancias únicas que resuenan con tu personalidad",
     buttonText: "Explorar",
-    buttonLink: "/category/jovenes"
+    buttonLink: "/category/perfumes"
   },
   {
     id: 3,
     image: "https://images.pexels.com/photos/6347888/pexels-photo-6347888.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    title: "Últimas tendencias en Perfumería",
-    subtitle: "Fragancias exclusivas para ocasiones especiales",
+    title: "Cosméticos de Alta Calidad",
+    subtitle: "Mejora tu rutina de belleza con productos premium",
     buttonText: "Descubrir",
-    buttonLink: "/category/perfumeria"
+    buttonLink: "/category/cosmeticos"
   }
 ];
 
-// Sample featured products
-const featuredProducts = [
-  {
-    id: "p1",
-    name: "Vestido Floral de Verano",
-    price: 799.99,
-    originalPrice: 1299.99,
-    discountPercentage: 38,
-    image: "https://images.pexels.com/photos/19591624/pexels-photo-19591624/free-photo-of-moda-gente-mujer-verano.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    category: "Mujeres",
-    isNew: false
-  },
-  {
-    id: "p2",
-    name: "Camisa Slim Fit a Cuadros",
-    price: 599.99,
-    image: "https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    category: "Hombres",
-    isNew: true
-  },
-  {
-    id: "p3",
-    name: "Conjunto Deportivo Infantil",
-    price: 449.99,
-    originalPrice: 699.99,
-    discountPercentage: 35,
-    image: "https://images.pexels.com/photos/35188/child-childrens-baby-children-s.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    category: "Bebés",
-    isNew: false
-  },
-  {
-    id: "p4",
-    name: "Zapatos Casual de Cuero",
-    price: 1299.99,
-    image: "https://images.pexels.com/photos/267320/pexels-photo-267320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    category: "Hombres",
-    isNew: false
-  },
-  {
-    id: "p5",
-    name: "Bolso de Mano Elegante",
-    price: 899.99,
-    originalPrice: 1199.99,
-    discountPercentage: 25,
-    image: "https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    category: "Mujeres",
-    isNew: true
-  },
-  {
-    id: "p6",
-    name: "Mochila Escolar Resistente",
-    price: 349.99,
-    image: "https://images.pexels.com/photos/1546003/pexels-photo-1546003.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    category: "Escolar",
-    isNew: false
-  },
-  {
-    id: "p7",
-    name: "Perfume Floral Intenso",
-    price: 1499.99,
-    image: "https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    category: "Perfumería",
-    isNew: true
-  },
-  {
-    id: "p8",
-    name: "Set de Maquillaje Profesional",
-    price: 999.99,
-    originalPrice: 1499.99,
-    discountPercentage: 33,
-    image: "https://images.pexels.com/photos/2253832/pexels-photo-2253832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    category: "Cosméticos",
-    isNew: false
-  }
+// Productos destacados por categoría
+const featuredProducts = {
+  dama: [
+    {
+      id: "p1",
+      name: "Vestido Floral de Verano",
+      price: 799.99,
+      originalPrice: 1299.99,
+      discountPercentage: 38,
+      image: "https://images.pexels.com/photos/19591624/pexels-photo-19591624/free-photo-of-moda-gente-mujer-verano.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Dama",
+      isNew: false
+    },
+    {
+      id: "p5",
+      name: "Bolso de Mano Elegante",
+      price: 899.99,
+      originalPrice: 1199.99,
+      discountPercentage: 25,
+      image: "https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Dama",
+      isNew: true
+    },
+    {
+      id: "p9",
+      name: "Blazer Formal Femenino",
+      price: 1299.99,
+      image: "https://images.pexels.com/photos/7258362/pexels-photo-7258362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Dama",
+      isNew: true
+    },
+    {
+      id: "p13",
+      name: "Vestido de Noche Elegante",
+      price: 1599.99,
+      image: "https://images.pexels.com/photos/3965545/pexels-photo-3965545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Dama",
+      isNew: false
+    }
+  ],
+  caballero: [
+    {
+      id: "p2",
+      name: "Camisa Slim Fit a Cuadros",
+      price: 599.99,
+      image: "https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Caballero",
+      isNew: true
+    },
+    {
+      id: "p4",
+      name: "Zapatos Casual de Cuero",
+      price: 1299.99,
+      image: "https://images.pexels.com/photos/267320/pexels-photo-267320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Caballero",
+      isNew: false
+    },
+    {
+      id: "p10",
+      name: "Traje Formal Ejecutivo",
+      price: 2499.99,
+      originalPrice: 2999.99,
+      discountPercentage: 16,
+      image: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Caballero",
+      isNew: false
+    },
+    {
+      id: "p14",
+      name: "Reloj Analógico Clásico",
+      price: 1899.99,
+      image: "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Caballero",
+      isNew: true
+    }
+  ],
+  jovenes: [
+    {
+      id: "p11",
+      name: "Sudadera con Capucha Urban",
+      price: 699.99,
+      originalPrice: 899.99,
+      discountPercentage: 22,
+      image: "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Jóvenes",
+      isNew: true
+    },
+    {
+      id: "p12",
+      name: "Jeans Rasgados Modernos",
+      price: 799.99,
+      image: "https://images.pexels.com/photos/1082529/pexels-photo-1082529.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Jóvenes",
+      isNew: false
+    },
+    {
+      id: "p15",
+      name: "Zapatillas Deportivas Premium",
+      price: 1299.99,
+      originalPrice: 1599.99,
+      discountPercentage: 18,
+      image: "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Jóvenes",
+      isNew: true
+    },
+    {
+      id: "p16",
+      name: "Mochila Urbana Moderna",
+      price: 599.99,
+      image: "https://images.pexels.com/photos/1546003/pexels-photo-1546003.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Jóvenes",
+      isNew: false
+    }
+  ],
+  bebes: [
+    {
+      id: "p3",
+      name: "Conjunto Deportivo Infantil",
+      price: 449.99,
+      originalPrice: 699.99,
+      discountPercentage: 35,
+      image: "https://images.pexels.com/photos/35188/child-childrens-baby-children-s.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Bebés",
+      isNew: false
+    },
+    {
+      id: "p17",
+      name: "Pijama Suave para Bebé",
+      price: 349.99,
+      image: "https://images.pexels.com/photos/3933282/pexels-photo-3933282.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Bebés",
+      isNew: true
+    },
+    {
+      id: "p18",
+      name: "Set de Juguetes Educativos",
+      price: 499.99,
+      originalPrice: 699.99,
+      discountPercentage: 28,
+      image: "https://images.pexels.com/photos/3933025/pexels-photo-3933025.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Bebés",
+      isNew: false
+    },
+    {
+      id: "p19",
+      name: "Silla de Comer Ajustable",
+      price: 1299.99,
+      image: "https://images.pexels.com/photos/6114938/pexels-photo-6114938.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Bebés",
+      isNew: true
+    }
+  ],
+  perfumes: [
+    {
+      id: "p7",
+      name: "Perfume Floral Intenso",
+      price: 1499.99,
+      image: "https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Perfumería",
+      isNew: true
+    },
+    {
+      id: "p20",
+      name: "Eau de Parfum Elegance",
+      price: 1799.99,
+      originalPrice: 2199.99,
+      discountPercentage: 18,
+      image: "https://images.pexels.com/photos/755992/pexels-photo-755992.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Perfumería",
+      isNew: false
+    },
+    {
+      id: "p21",
+      name: "Colonia Refrescante Aqua",
+      price: 1199.99,
+      image: "https://images.pexels.com/photos/3059609/pexels-photo-3059609.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Perfumería",
+      isNew: true
+    },
+    {
+      id: "p22",
+      name: "Set de Fragancias Exclusivas",
+      price: 2499.99,
+      image: "https://images.pexels.com/photos/190334/pexels-photo-190334.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Perfumería",
+      isNew: false
+    }
+  ],
+  cosmeticos: [
+    {
+      id: "p8",
+      name: "Set de Maquillaje Profesional",
+      price: 999.99,
+      originalPrice: 1499.99,
+      discountPercentage: 33,
+      image: "https://images.pexels.com/photos/2253832/pexels-photo-2253832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Cosméticos",
+      isNew: false
+    },
+    {
+      id: "p23",
+      name: "Paleta de Sombras Premium",
+      price: 699.99,
+      image: "https://images.pexels.com/photos/1749452/pexels-photo-1749452.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Cosméticos",
+      isNew: true
+    },
+    {
+      id: "p24",
+      name: "Kit de Cuidado Facial",
+      price: 899.99,
+      originalPrice: 1099.99,
+      discountPercentage: 18,
+      image: "https://images.pexels.com/photos/3373739/pexels-photo-3373739.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Cosméticos",
+      isNew: false
+    },
+    {
+      id: "p25",
+      name: "Labiales de Larga Duración",
+      price: 499.99,
+      image: "https://images.pexels.com/photos/458766/pexels-photo-458766.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      category: "Cosméticos",
+      isNew: true
+    }
+  ]
+};
+
+// Combinar todos los productos para la vista "todos"
+const allProducts = [
+  ...featuredProducts.dama,
+  ...featuredProducts.caballero,
+  ...featuredProducts.jovenes,
+  ...featuredProducts.bebes,
+  ...featuredProducts.perfumes,
+  ...featuredProducts.cosmeticos
 ];
 
-// Popular categories with images
+// Categorías populares con imágenes
 const popularCategories = [
   {
     id: 1,
     title: "Moda Mujer",
-    subtitle: "Nueva colección primavera-verano",
+    subtitle: "Elegancia y estilo para cada ocasión",
     image: "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    link: "/category/mujeres"
+    link: "/category/dama"
   },
   {
     id: 2,
     title: "Moda Hombre",
-    subtitle: "Estilo y confort para cada ocasión",
+    subtitle: "Confort y calidad en cada prenda",
     image: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    link: "/category/hombres"
+    link: "/category/caballero"
   },
   {
     id: 3,
-    title: "Joyería",
-    subtitle: "Piezas únicas para momentos especiales",
-    image: "https://images.pexels.com/photos/1232931/pexels-photo-1232931.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    link: "/category/joyeria",
+    title: "Perfumes Exclusivos",
+    subtitle: "Fragancias únicas para momentos especiales",
+    image: "https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    link: "/category/perfumes",
     theme: "dark" as const
   }
 ];
@@ -161,6 +323,21 @@ const Index = () => {
       {/* Main Slider */}
       <section className="mb-12">
         <BannerSlider slides={bannerSlides} />
+      </section>
+
+      {/* Historia de Charlotte ARCS */}
+      <section className="container mx-auto px-4 mb-12">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-charlotte-dark mb-4">Nuestra Historia</h2>
+          <p className="text-charlotte-muted mb-6">
+            Charlotte ARCS es una innovadora tienda online destacada por ofrecer productos únicos y creativos para todo tipo de público. 
+            Nuestro enfoque en la originalidad y calidad nos ha posicionado como un referente en el comercio electrónico, 
+            atrayendo a una amplia gama de clientes en busca de artículos especiales.
+          </p>
+          <Link to="/about" className="text-charlotte-primary hover:text-charlotte-primary/80 transition-colors inline-flex items-center">
+            Conoce más sobre nosotros <ArrowRight size={16} className="ml-1" />
+          </Link>
+        </div>
       </section>
 
       {/* Featured Categories */}
@@ -199,7 +376,7 @@ const Index = () => {
               <div className="max-w-lg fade-in opacity-0 transform translate-y-10 transition-all duration-500">
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">Nuevas Llegadas</h2>
                 <p className="text-white/80 mb-6 text-sm md:text-base">
-                  Descubre las últimas tendencias que acabamos de recibir. Prendas exclusivas para renovar tu armario.
+                  Descubre nuestros diseños exclusivos y fragancias únicas que acabamos de recibir. Productos que resaltan tu individualidad.
                 </p>
                 <Button asChild className="bg-white text-charlotte-dark hover:bg-white/90">
                   <Link to="/category/nuevas-llegadas">
@@ -230,22 +407,34 @@ const Index = () => {
               Todos
             </TabsTrigger>
             <TabsTrigger 
-              value="nuevos" 
+              value="dama" 
               className="rounded-none pb-2 px-4 border-b-2 border-transparent data-[state=active]:border-charlotte-primary data-[state=active]:bg-transparent data-[state=active]:text-charlotte-primary"
             >
-              Nuevos
+              Dama
             </TabsTrigger>
             <TabsTrigger 
-              value="ofertas" 
+              value="caballero" 
               className="rounded-none pb-2 px-4 border-b-2 border-transparent data-[state=active]:border-charlotte-primary data-[state=active]:bg-transparent data-[state=active]:text-charlotte-primary"
             >
-              Ofertas
+              Caballero
+            </TabsTrigger>
+            <TabsTrigger 
+              value="jovenes" 
+              className="rounded-none pb-2 px-4 border-b-2 border-transparent data-[state=active]:border-charlotte-primary data-[state=active]:bg-transparent data-[state=active]:text-charlotte-primary"
+            >
+              Jóvenes
+            </TabsTrigger>
+            <TabsTrigger 
+              value="perfumes" 
+              className="rounded-none pb-2 px-4 border-b-2 border-transparent data-[state=active]:border-charlotte-primary data-[state=active]:bg-transparent data-[state=active]:text-charlotte-primary"
+            >
+              Perfumes
             </TabsTrigger>
           </TabsList>
           
           <TabsContent value="todos" className="mt-0">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-              {featuredProducts.map((product, index) => (
+              {allProducts.slice(0, 8).map((product, index) => (
                 <div 
                   key={product.id}
                   className="fade-in opacity-0 transform translate-y-10 transition-all duration-500"
@@ -257,9 +446,9 @@ const Index = () => {
             </div>
           </TabsContent>
           
-          <TabsContent value="nuevos" className="mt-0">
+          <TabsContent value="dama" className="mt-0">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-              {featuredProducts.filter(p => p.isNew).map((product, index) => (
+              {featuredProducts.dama.map((product, index) => (
                 <div 
                   key={product.id}
                   className="fade-in opacity-0 transform translate-y-10 transition-all duration-500"
@@ -271,9 +460,37 @@ const Index = () => {
             </div>
           </TabsContent>
           
-          <TabsContent value="ofertas" className="mt-0">
+          <TabsContent value="caballero" className="mt-0">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-              {featuredProducts.filter(p => p.originalPrice && p.originalPrice > p.price).map((product, index) => (
+              {featuredProducts.caballero.map((product, index) => (
+                <div 
+                  key={product.id}
+                  className="fade-in opacity-0 transform translate-y-10 transition-all duration-500"
+                  style={{ transitionDelay: `${index * 100}ms` }}
+                >
+                  <ProductCard {...product} />
+                </div>
+              ))}
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="jovenes" className="mt-0">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              {featuredProducts.jovenes.map((product, index) => (
+                <div 
+                  key={product.id}
+                  className="fade-in opacity-0 transform translate-y-10 transition-all duration-500"
+                  style={{ transitionDelay: `${index * 100}ms` }}
+                >
+                  <ProductCard {...product} />
+                </div>
+              ))}
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="perfumes" className="mt-0">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              {featuredProducts.perfumes.map((product, index) => (
                 <div 
                   key={product.id}
                   className="fade-in opacity-0 transform translate-y-10 transition-all duration-500"
@@ -290,40 +507,22 @@ const Index = () => {
       {/* Testimonials Section */}
       <Testimonials />
 
-      {/* Split Banner (Shop by gender) */}
+      {/* Split Banner (Actech partnership) */}
       <section className="container mx-auto px-4 mb-12 mt-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-          <div className="relative overflow-hidden rounded-lg h-[300px]">
-            <img 
-              src="https://images.pexels.com/photos/794062/pexels-photo-794062.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-              alt="Moda Mujer" 
-              className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-black/30 flex items-center p-6 md:p-8">
-              <div className="fade-in opacity-0 transform translate-y-10 transition-all duration-500">
-                <h3 className="text-2xl font-bold text-white mb-2">Moda Mujer</h3>
-                <p className="text-white/80 mb-4 text-sm">Elegancia y estilo para cada ocasión</p>
-                <Button asChild className="bg-white text-charlotte-dark hover:bg-white/90">
-                  <Link to="/category/mujeres">Comprar ahora</Link>
-                </Button>
-              </div>
+        <div className="bg-charlotte-light rounded-lg p-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-charlotte-dark mb-4">Supervisión y Asociación con Actech</h2>
+          <p className="text-charlotte-muted mb-6 max-w-3xl mx-auto">
+            Charlotte ARCS opera bajo la supervisión de Actech, una empresa líder en soluciones digitales. 
+            Esta asociación es fundamental para fomentar el crecimiento de pequeños negocios e impulsar el desarrollo digital.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <h3 className="font-bold text-lg mb-3">Fomento de Pequeños Negocios</h3>
+              <p>Trabajamos en conjunto para integrar a pequeños negocios en nuestra cadena de suministro, ayudándoles a convertirse en fabricantes de productos.</p>
             </div>
-          </div>
-          
-          <div className="relative overflow-hidden rounded-lg h-[300px]">
-            <img 
-              src="https://images.pexels.com/photos/1192609/pexels-photo-1192609.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-              alt="Moda Hombre" 
-              className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-black/30 flex items-center p-6 md:p-8">
-              <div className="fade-in opacity-0 transform translate-y-10 transition-all duration-500">
-                <h3 className="text-2xl font-bold text-white mb-2">Moda Hombre</h3>
-                <p className="text-white/80 mb-4 text-sm">Confort y calidad en cada prenda</p>
-                <Button asChild className="bg-white text-charlotte-dark hover:bg-white/90">
-                  <Link to="/category/hombres">Comprar ahora</Link>
-                </Button>
-              </div>
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <h3 className="font-bold text-lg mb-3">Desarrollo Digital</h3>
+              <p>Estamos comprometidos en ayudar a pequeñas empresas a crecer tanto física como digitalmente, brindándoles las herramientas necesarias para prosperar.</p>
             </div>
           </div>
         </div>
@@ -332,6 +531,7 @@ const Index = () => {
       {/* Benefits */}
       <section className="bg-charlotte-light py-12 mb-12">
         <div className="container mx-auto px-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-charlotte-dark mb-8 text-center">¿Por qué elegir Charlotte ARCS?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center fade-in opacity-0 transform translate-y-10 transition-all duration-500">
               <div className="w-16 h-16 bg-charlotte-primary rounded-full flex items-center justify-center mx-auto mb-4">
@@ -349,8 +549,8 @@ const Index = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-charlotte-dark mb-2">Calidad Garantizada</h3>
-              <p className="text-charlotte-muted">100% satisfacción garantizada</p>
+              <h3 className="text-xl font-bold text-charlotte-dark mb-2">Productos Exclusivos</h3>
+              <p className="text-charlotte-muted">Diseños únicos y creativos</p>
             </div>
             
             <div className="text-center fade-in opacity-0 transform translate-y-10 transition-all duration-500" style={{ transitionDelay: '200ms' }}>
