@@ -34,6 +34,17 @@
     --ring: 262 83% 58%;
 
     --radius: 0.5rem;
+    
+    /* Charlotte ARCS Colors */
+    --color-primary: #0084c8;
+    --color-primary-light: #40b4ff;
+    --color-primary-dark: #0069a3;
+    --color-accent: #00b8d9;
+    --color-light: #f6fbff;
+    --color-dark: #1a1a1a;
+    --color-success: #28a745;
+    --color-error: #dc3545;
+    --color-warning: #ffc107;
   }
 
   .dark {
@@ -79,11 +90,17 @@
 
 /* Import Playfair Display font for the Charlotte logo */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
 /* Custom font for the Charlotte ARCS title */
 .font-charlotte {
   font-family: 'Playfair Display', serif;
   letter-spacing: 0.02em;
+}
+
+/* Base font for body text */
+body {
+  font-family: 'Montserrat', sans-serif;
 }
 
 /* Custom animations */
@@ -126,4 +143,143 @@
 
 .btn-hover-effect:hover::before {
   @apply opacity-10;
+}
+
+/* Custom animations for page transitions */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translate3d(0, 20px, 0);
+    visibility: visible;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translate3d(20px, 0, 0);
+    visibility: visible;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  from, 20%, 53%, 80%, to {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    transform: translate3d(0, 0, 0);
+  }
+  40%, 43% {
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    transform: translate3d(0, -15px, 0);
+  }
+  70% {
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    transform: translate3d(0, -7px, 0);
+  }
+  90% {
+    transform: translate3d(0, -2px, 0);
+  }
+}
+
+/* Animation utility classes */
+.animate-fadeIn {
+  animation: fadeIn 0.5s both;
+}
+
+.animate-slideInUp {
+  animation: slideInUp 0.5s both;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.5s both;
+}
+
+.animate-zoomIn {
+  animation: zoomIn 0.5s both;
+}
+
+.animate-bounce {
+  animation: bounce 1s both;
+}
+
+/* Animation delays */
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Custom scroll bars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-light);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Glass morphism effect */
+.glass-card {
+  @apply bg-white/90 backdrop-blur-sm border border-white/20 shadow-lg;
+}
+
+/* Hover Effects */
+.hover-lift {
+  @apply transition-all duration-300;
+}
+
+.hover-lift:hover {
+  @apply shadow-lg -translate-y-1;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 15px rgba(0, 132, 200, 0.4);
+}
+
+/* Highlight text */
+.highlight {
+  @apply bg-charlotte-primary/10 text-charlotte-primary px-1 py-0.5 rounded;
 }
