@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, Heart, Menu, X, User } from 'lucide-react';
@@ -31,8 +30,8 @@ const Logo = () => (
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { cart } = useCart();
-  const { wishlist } = useWishlist();
+  const { items: cart } = useCart(); // Corregido
+  const { items: wishlist } = useWishlist(); // Corregido
   const { user, signOut } = useAuth();
   const location = useLocation();
   

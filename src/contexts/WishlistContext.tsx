@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { supabaseCustom } from '@/lib/supabase-custom';
