@@ -1,0 +1,18 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --charlotte-primary: #0084c8;
+  --charlotte-primary-light: #40b4ff;
+  --charlotte-primary-dark: #0069a3;
+}
+
+body {
+  @apply bg-gray-50;
+}
+
+.container {
+  @apply max-w-7xl mx-auto px-4;
+}
