@@ -25,7 +25,7 @@ Hoy, Actech cuenta con **25 especialistas** en programación, ciberseguridad, ha
 3. **Valhalla - Xavier Flores**: Impacto social.  
 4. **Douce Protection - Lara Tanaka**: Protección y accesibilidad.  
 
-Los **dedos de Tokima** (Cerberos, Sirenas, Erinyes, Driadas, Arpías) representan desafíos internos. Actech ha impactado comunidades con soluciones para **Charlotte ARCS**, **Eternal Roses**, **Lunar Promise**, y más.
+Actech ha impactado comunidades con soluciones para **Charlotte ARCS**, **Eternal Roses**, **Lunar Promise**, y más.
 
 ### Visión Futura
 Para **2025-2035**, Actech planea:  
