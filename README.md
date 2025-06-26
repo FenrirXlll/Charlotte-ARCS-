@@ -12,10 +12,10 @@ En **2014**, **Alejandro Ramírez** se unió como dedo primario, destacando al d
 La muerte de Tokima en **2016** por enfermedad desencadenó una crisis, dispersando al equipo y dejando a los "dedos" al borde de desmantelar el legado.
 
 ### El Legado Tokima Resurge (2017-2020)
-En **abril de 2017**, **Alejandro Ramírez**, ex-hacker ético de 18 años, adquirió Actech con el patrimonio dejado por Tokima a sus 10 aprendices ("cachorros"). Frente a la fragmentación de los "dedos", Ramírez reunió a tres aliados, cada uno representando un pilar, para preservar la visión:  
+En **abril de 2017**, **Alejandro Ramírez**, ex-hacker ético de 18 años, adquirió Actech con el patrimonio dejado por Tokima a sus 10 aprendices. Frente a la fragmentación de los "dedos", Ramírez reunió a tres aliados fieles al **legado Tokima**, cada uno representando un pilar, para preservar la visión:  
 - **Optimización**: Sistemas de gestión para hoteles, restaurantes y más.  
-- **Ciberseguridad**: Criptografía cuántica para datos médicos.  
-- **Cultura**: Certificaciones prácticas (Google, Cisco, Linux) sobre titulos formales.  
+- **Ciberseguridad**: Criptografía cuántica.  
+- **Cultura**: Certificaciones prácticas (Linux) sobre titulos formales.  
 Esta etapa marcó el renacimiento de Actech, consolidando los pilares.
 
 ### Expansión (2020-2025): Tecnología con Alma
